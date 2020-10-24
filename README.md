@@ -1,0 +1,2 @@
+# PRITR
+Pritr course tasks
