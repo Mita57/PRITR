@@ -15,7 +15,17 @@ use
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('landing');
 });
 
-Route:: get('/', 'Controller')
+Route:: get('/classic', 'Controller@classic');
+
+Route:: get('/arena', 'Controller@arena');
+
+Route:: get('/classic', 'Controller@classic');
+
+Route:: get('/practice', 'Controller@practice');
+
+Route:: get('/royale', 'Controller@royale');
+
+Route:: get('/user', 'Controller@user');
