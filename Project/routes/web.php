@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use
 
 /*
 |--------------------------------------------------------------------------
@@ -18,14 +17,14 @@ Route::get('/', function () {
     return view('landing');
 });
 
-Route:: get('/classic', 'Controller@classic');
+Route::get('/classic', 'Controller@classic');
 
-Route:: get('/arena', 'Controller@arena');
+Route::get('/arena', 'Controller@arena');
 
-Route:: get('/classic', 'Controller@classic');
+Route::get('/classic', 'Controller@classic');
 
-Route:: get('/practice', 'Controller@practice');
+Route::get('/practice', 'Controller@practice');
 
-Route:: get('/royale', 'Controller@royale');
+Route::get('/royale', 'Controller@royale');
 
-Route:: get('/user', 'Controller@user');
+Route::get('/user', 'Controller@user');
