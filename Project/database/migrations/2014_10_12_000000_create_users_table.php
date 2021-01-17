@@ -19,6 +19,17 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->integer('mmr')->nullable();
+            $table->string('last_10')->nullable();
+            $table->integer('max_ever')->nullable();
+            $table->integer('cpm_sum')->nullable();
+            $table->integer('finished_games_overall')->nullable();
+            $table->integer('battle_royale_finished')->nullable();
+            $table->integer('battle_royale_won')->nullable();
+            $table->integer('classic_finished')->nullable();
+            $table->integer('classic_won')->nullable();
+            $table->integer('arena_got_to_room1')->nullable();
+            $table->integer('arena_played')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
