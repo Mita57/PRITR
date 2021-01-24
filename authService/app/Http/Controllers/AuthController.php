@@ -58,10 +58,13 @@ class AuthController extends Controller
 
     public function checkToken(Request $request)
     {
-
+        try {
             $user = JWTAuth::parseToken()->authenticate();
             return response()->json(['type'=>'Success', 'message'=>'token is valid'],200);
-
+        }
+        catch (JWTException $e) {
+            return response()->json(['type'=>'Error', 'message'=>'token expired or user unauthorized'],401);
+        }
 
     }
 

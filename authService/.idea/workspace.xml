@@ -2,12 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e1ab0e69-4dbc-4e23-b227-11678660c2c4" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../Project/database/migrations/2014_10_12_000000_create_users_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/../Project/database/migrations/2014_10_12_000000_create_users_table.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/AuthController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/AuthController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Kernel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Kernel.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/User.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -171,7 +169,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1611498793185</updated>
-      <workItem from="1611498794870" duration="8048000" />
+      <workItem from="1611498794870" duration="9853000" />
     </task>
     <servers />
   </component>
@@ -179,6 +177,10 @@
     <option name="version" value="3" />
   </component>
   <component name="WindowStateProjectService">
+    <state x="48" y="0" key="CommitChangelistDialog2" timestamp="1611508361070">
+      <screen x="0" y="0" width="1707" height="920" />
+    </state>
+    <state x="48" y="0" key="CommitChangelistDialog2/0.0.1707.920@0.0.1707.920" timestamp="1611508361070" />
     <state x="198" y="370" key="ComposerInitDialogKey" timestamp="1611498917462">
       <screen x="0" y="0" width="1707" height="920" />
     </state>
@@ -187,9 +189,9 @@
       <screen x="0" y="0" width="1707" height="920" />
     </state>
     <state x="207" y="218" key="FileChooserDialogImpl/0.0.1707.920@0.0.1707.920" timestamp="1611506825327" />
-    <state x="135" y="69" width="583" height="789" key="find.popup" timestamp="1611506819279">
+    <state x="135" y="69" width="583" height="789" key="find.popup" timestamp="1611508931225">
       <screen x="0" y="0" width="1707" height="920" />
     </state>
-    <state x="135" y="69" width="583" height="789" key="find.popup/0.0.1707.920@0.0.1707.920" timestamp="1611506819279" />
+    <state x="135" y="69" width="583" height="789" key="find.popup/0.0.1707.920@0.0.1707.920" timestamp="1611508931225" />
   </component>
 </project>
