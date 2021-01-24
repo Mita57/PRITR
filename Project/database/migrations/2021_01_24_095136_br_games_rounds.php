@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTextsTable extends Migration
+class BrGamesRounds extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,11 @@ class CreateTextsTable extends Migration
      */
     public function up()
     {
-        Schema::create('texts', function (Blueprint $table) {
-            $table->id();
-            $table->string('text');
-            $table->string('length');
-            $table->string('topic');
-            $table->string('lang');
+        Schema::create('br_games_rounds', function (Blueprint $table) {
+            $table->id("round_id");
+            $table->integer('game_id');
+            $table->integer('text_id');
+            $table->integer('round_num');
         });
     }
 
@@ -29,7 +28,6 @@ class CreateTextsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('texts');
+        Schema::dropIfExists('br_games_rounds');
     }
 }
-

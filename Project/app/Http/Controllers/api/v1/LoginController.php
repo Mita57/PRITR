@@ -30,12 +30,12 @@ class LoginController extends Controller
 
     public function login(Request $request)
     {
-        $loginData = $request->validate([
-            'email' => 'email|required',
-            'password' => 'required'
-        ]);
+//        $loginData = $request->validate([
+//            'email' => 'email|required',
+//            'password' => 'required'
+//        ]);
 
-        if(!auth()->attempt($loginData)) {
+        if(!auth()->attempt($request->toArray())) {
             return response(['message'=>'Hey buddy I think you got the wrong door']);
         }
 
