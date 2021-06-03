@@ -14,7 +14,8 @@ class CreateTextsTable extends Migration
     public function up()
     {
         Schema::create('texts', function (Blueprint $table) {
-            $table->string('text')->index();
+            $table->id();
+            $table->string('text');
             $table->string('length');
             $table->string('topic');
             $table->string('lang');
@@ -28,7 +29,7 @@ class CreateTextsTable extends Migration
      */
     public function down()
     {
-
+        Schema::dropIfExists('texts');
     }
 }
 
