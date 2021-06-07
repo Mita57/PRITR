@@ -13,18 +13,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('landing');
-});
-
-Route::get('/classic', 'Controller@classic');
-
-Route::get('/arena', 'Controller@arena');
-
-Route::get('/classic', 'Controller@classic');
-
-Route::get('/practice', 'Controller@practice');
-
-Route::get('/royale', 'Controller@royale');
-
-Route::get('/user', 'Controller@user');
+Route::any('{catchall}', function () {
+    return view('welcome');
+})->where('catchall', '.*');;

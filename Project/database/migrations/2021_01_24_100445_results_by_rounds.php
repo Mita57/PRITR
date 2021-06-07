@@ -18,6 +18,7 @@ class ResultsByRounds extends Migration
             $table->string('user');
             $table->integer('place');
             $table->integer('time');
+            $table->foreign('round_id')->references('id')->on('br_games_rounds');
         });
     }
 

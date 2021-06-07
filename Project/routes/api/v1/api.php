@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\TextController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,10 +15,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::prefix('/user')->group(function () {
-    Route::post('/login', 'api\v1\LoginController@login');
-    Route::post('/register', 'api\v1\LoginController@register');
-
+Route::prefix('/text')->group(function () {
+    Route::get('/getRandom', [TextController::class, 'index']);
+    Route::post('/postText', [TextController::class, 'store']);
+    Route::put('{id}', [TextController::class, 'update']);
+    Route::delete('{id}', [TextController::class, 'destroy']);
+    Route::get('/show/{id}', [TextController::class, 'show']);
 });
+
+
 
 

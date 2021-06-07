@@ -3,15 +3,10 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Text extends Model
 {
-    protected $table = 'Texts';
-
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-    protected $fillable = ['text', 'length', 'topic', 'lang'];
+    public $timestamps = false;
+    use HasFactory;
 }

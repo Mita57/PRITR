@@ -14,10 +14,12 @@ class BrGamesRounds extends Migration
     public function up()
     {
         Schema::create('br_games_rounds', function (Blueprint $table) {
-            $table->id("round_id");
+            $table->id("id");
             $table->integer('game_id');
             $table->integer('text_id');
             $table->integer('round_num');
+            $table->foreign('game_id')->references('id')->on('battle_royale_games');
+            $table->foreign('text_id')->references('id')->on('texts');
         });
     }
 

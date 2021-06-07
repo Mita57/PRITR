@@ -18,6 +18,7 @@ class ClassicResults extends Migration
             $table->string('user');
             $table->integer('place');
             $table->integer('time');
+            $table->foreign('game_id')->references('id')->on('classic_games');
         });
     }
 
