@@ -52,7 +52,7 @@ export default {
                     topic: this.anyTopicChecked ? 'any' : this.topic
                 }
             }).then((response) => {
-                console.log(response);
+                this.$emit('textReady', response.data);
             }).catch((response) => {
                 console.error(response);
             });

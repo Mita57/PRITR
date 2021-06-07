@@ -1967,8 +1967,20 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      textFound: false
+      text: {
+        "id": 7,
+        "text": "If data is a stream resource, the remaining buffer of that stream will be copied to the specified file. This is similar with using stream_copy_to_stream().",
+        "length": "smol",
+        "topic": "php",
+        "lang": "en",
+        "source": "php"
+      }
     };
+  },
+  methods: {
+    textFound: function textFound(response) {
+      this.text = response;
+    }
   }
 });
 
@@ -2027,6 +2039,8 @@ __webpack_require__.r(__webpack_exports__);
   name: "textSelector",
   methods: {
     getText: function getText() {
+      var _this = this;
+
       axios({
         method: 'GET',
         url: 'api/v1/text/getRandom',
@@ -2036,7 +2050,7 @@ __webpack_require__.r(__webpack_exports__);
           topic: this.anyTopicChecked ? 'any' : this.topic
         }
       }).then(function (response) {
-        console.log(response);
+        _this.$emit('textReady', response.data);
       })["catch"](function (response) {
         console.error(response);
       });
@@ -2070,8 +2084,30 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: "typingPractice"
+  name: "typingPractice",
+  props: ['text'],
+  mounted: function mounted() {
+    this.textLeft = this.text.text;
+  },
+  data: function data() {
+    return {
+      goodText: '',
+      badText: '',
+      textLeft: '',
+      inputText: '',
+      lastGoodChar: 0
+    };
+  },
+  methods: {
+    textThing: function textThing() {}
+  }
 });
 
 /***/ }),
@@ -2179,6 +2215,25 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 // module
 exports.push([module.i, "\n#container[data-v-16bfeca9] {\n    width: 600px;\n    text-align: center;\n    background-color: #cdcdcd;\n    padding: 16px;\n    margin: 16px auto auto;\n    border-radius: 8px;\n}\n.options_field[data-v-16bfeca9] {\n    border: black 1px solid;\n    padding: 8px;\n    margin-top: 8px;\n}\nh1[data-v-16bfeca9] {\n    margin: 0;\n}\n#topic[data-v-16bfeca9] {\n    width: 400px;\n}\n#findText[data-v-16bfeca9] {\n    height: 40px;\n    width: 200px;\n    background-color: #530000;\n    color: #FFFFFF;\n    font-size: 14pt;\n    border: none;\n    transition: 0.3s;\n    cursor: pointer;\n}\n#findText[data-v-16bfeca9]:hover {\n    background-color: #693838;\n}\n#findText[data-v-16bfeca9]:disabled {\n    background-color: #915656;\n    color: #c8a4a4;\n    cursor: default;\n}\n\n", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/vue/practice/typingPractice.vue?vue&type=style&index=0&id=142b2fe2&scoped=true&lang=css&":
+/*!**********************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/vue/practice/typingPractice.vue?vue&type=style&index=0&id=142b2fe2&scoped=true&lang=css& ***!
+  \**********************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n#container[data-v-142b2fe2] {\n    width: 600px;\n    text-align: center;\n    background-color: #cdcdcd;\n    padding: 16px;\n    margin: 16px auto auto;\n    border-radius: 8px;\n}\n#textDiv[data-v-142b2fe2] {\n    background-color: #dcdcdc;\n    text-align: justify;\n    font-size: 14pt;\n    padding: 8px;\n}\nh1[data-v-142b2fe2] {\n    margin-top: 0;\n}\n#goodTextSpan[data-v-142b2fe2] {\n    color: #00961d;\n}\n#badTextSpan[data-v-142b2fe2] {\n    background-color: #6a272f;\n    color: #FFFFFF;\n}\n#textInput[data-v-142b2fe2] {\n    width: 594px;\n    height: 24px;\n    margin-top: 8px;\n}\n\n\n", ""]);
 
 // exports
 
@@ -19957,6 +20012,36 @@ if(false) {}
 
 /***/ }),
 
+/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/vue/practice/typingPractice.vue?vue&type=style&index=0&id=142b2fe2&scoped=true&lang=css&":
+/*!**************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader!./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/vue/practice/typingPractice.vue?vue&type=style&index=0&id=142b2fe2&scoped=true&lang=css& ***!
+  \**************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../../../node_modules/css-loader??ref--6-1!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/postcss-loader/src??ref--6-2!../../../../node_modules/vue-loader/lib??vue-loader-options!./typingPractice.vue?vue&type=style&index=0&id=142b2fe2&scoped=true&lang=css& */ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/vue/practice/typingPractice.vue?vue&type=style&index=0&id=142b2fe2&scoped=true&lang=css&");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
+
+/***/ }),
+
 /***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/vue/suggestText.vue?vue&type=style&index=0&id=178c688c&scoped=true&lang=css&":
 /*!**************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/style-loader!./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/vue/suggestText.vue?vue&type=style&index=0&id=178c688c&scoped=true&lang=css& ***!
@@ -20689,7 +20774,9 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm.textFound === false ? _c("text-selector") : _c("typing-practice")
+  return _vm.text === null
+    ? _c("text-selector", { on: { textReady: _vm.textFound } })
+    : _c("typing-practice", { attrs: { text: this.text } })
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -20989,7 +21076,49 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div")
+  return _c("div", { attrs: { id: "container" } }, [
+    _c("h1", [_vm._v("Напиши этот текст")]),
+    _vm._v(" "),
+    _c("div", { attrs: { id: "textDiv" } }, [
+      _c("span", { attrs: { id: "goodTextSpan" } }, [
+        _vm._v(_vm._s(_vm.goodText))
+      ]),
+      _c("span", { attrs: { id: "badTextSpan" } }, [
+        _vm._v(_vm._s(_vm.badText))
+      ]),
+      _vm._v(_vm._s(_vm.textLeft) + "\n    ")
+    ]),
+    _vm._v(" "),
+    _c("input", {
+      directives: [
+        {
+          name: "model",
+          rawName: "v-model",
+          value: _vm.inputText,
+          expression: "inputText"
+        }
+      ],
+      attrs: {
+        type: "text",
+        id: "textInput",
+        placeholder: "Пиши сюда текст сверху"
+      },
+      domProps: { value: _vm.inputText },
+      on: {
+        input: [
+          function($event) {
+            if ($event.target.composing) {
+              return
+            }
+            _vm.inputText = $event.target.value
+          },
+          function($event) {
+            return _vm.textThing()
+          }
+        ]
+      }
+    })
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -36806,7 +36935,9 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _typingPractice_vue_vue_type_template_id_142b2fe2_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./typingPractice.vue?vue&type=template&id=142b2fe2&scoped=true& */ "./resources/js/vue/practice/typingPractice.vue?vue&type=template&id=142b2fe2&scoped=true&");
 /* harmony import */ var _typingPractice_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./typingPractice.vue?vue&type=script&lang=js& */ "./resources/js/vue/practice/typingPractice.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* empty/unused harmony star reexport *//* harmony import */ var _typingPractice_vue_vue_type_style_index_0_id_142b2fe2_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./typingPractice.vue?vue&type=style&index=0&id=142b2fe2&scoped=true&lang=css& */ "./resources/js/vue/practice/typingPractice.vue?vue&type=style&index=0&id=142b2fe2&scoped=true&lang=css&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
 
 
 
@@ -36814,7 +36945,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /* normalize component */
 
-var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
   _typingPractice_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
   _typingPractice_vue_vue_type_template_id_142b2fe2_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
   _typingPractice_vue_vue_type_template_id_142b2fe2_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
@@ -36843,6 +36974,22 @@ component.options.__file = "resources/js/vue/practice/typingPractice.vue"
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_typingPractice_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./typingPractice.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/vue/practice/typingPractice.vue?vue&type=script&lang=js&");
 /* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_typingPractice_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/vue/practice/typingPractice.vue?vue&type=style&index=0&id=142b2fe2&scoped=true&lang=css&":
+/*!***************************************************************************************************************!*\
+  !*** ./resources/js/vue/practice/typingPractice.vue?vue&type=style&index=0&id=142b2fe2&scoped=true&lang=css& ***!
+  \***************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_typingPractice_vue_vue_type_style_index_0_id_142b2fe2_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/style-loader!../../../../node_modules/css-loader??ref--6-1!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/postcss-loader/src??ref--6-2!../../../../node_modules/vue-loader/lib??vue-loader-options!./typingPractice.vue?vue&type=style&index=0&id=142b2fe2&scoped=true&lang=css& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/vue/practice/typingPractice.vue?vue&type=style&index=0&id=142b2fe2&scoped=true&lang=css&");
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_typingPractice_vue_vue_type_style_index_0_id_142b2fe2_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_typingPractice_vue_vue_type_style_index_0_id_142b2fe2_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_typingPractice_vue_vue_type_style_index_0_id_142b2fe2_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(["default"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_typingPractice_vue_vue_type_style_index_0_id_142b2fe2_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+
 
 /***/ }),
 
