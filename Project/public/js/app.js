@@ -2090,19 +2090,30 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "typingPractice",
   props: ['text'],
   mounted: function mounted() {
+    var _this = this;
+
     this.textLeft = this.text.text;
+    this.allWords = this.textLeft.split(" ");
+    setTimeout(function () {
+      _this.currWord = _this.allWords[_this.currWordIndex];
+      _this.raceStarted = true;
+    }, 3000);
   },
   data: function data() {
     return {
       goodText: '',
-      badText: '',
       textLeft: '',
       inputText: '',
-      lastGoodChar: 0
+      currWord: '',
+      currWordIndex: 0,
+      raceStarted: false
     };
   },
   methods: {
@@ -2233,7 +2244,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n#container[data-v-142b2fe2] {\n    width: 600px;\n    text-align: center;\n    background-color: #cdcdcd;\n    padding: 16px;\n    margin: 16px auto auto;\n    border-radius: 8px;\n}\n#textDiv[data-v-142b2fe2] {\n    background-color: #dcdcdc;\n    text-align: justify;\n    font-size: 14pt;\n    padding: 8px;\n}\nh1[data-v-142b2fe2] {\n    margin-top: 0;\n}\n#goodTextSpan[data-v-142b2fe2] {\n    color: #00961d;\n}\n#badTextSpan[data-v-142b2fe2] {\n    background-color: #6a272f;\n    color: #FFFFFF;\n}\n#textInput[data-v-142b2fe2] {\n    width: 594px;\n    height: 24px;\n    margin-top: 8px;\n}\n\n\n", ""]);
+exports.push([module.i, "\n#container[data-v-142b2fe2] {\n    width: 600px;\n    text-align: center;\n    background-color: #cdcdcd;\n    padding: 16px;\n    margin: 16px auto auto;\n    border-radius: 8px;\n}\n.placeholder[data-v-142b2fe2]\n{\n    position: relative;\n}\n.placeholder[data-v-142b2fe2]::after\n{\n    position: absolute;\n    left: 4px;\n    top: 12px;\n    font-family: \"Noto Sans\";\n    color: rgba(106,101,104,0.6);\n    content: attr(data-placeholder);\n    pointer-events: none;\n    opacity: 0.6;\n}\n#textDiv[data-v-142b2fe2] {\n    background-color: #dcdcdc;\n    text-align: justify;\n    font-size: 14pt;\n    padding: 8px;\n}\nh1[data-v-142b2fe2] {\n    margin-top: 0;\n}\n#goodTextSpan[data-v-142b2fe2] {\n    color: #00961d;\n}\n#badTextSpan[data-v-142b2fe2] {\n    background-color: #6a272f;\n    color: #FFFFFF;\n}\n#textInput[data-v-142b2fe2] {\n    width: 594px;\n    height: 24px;\n    margin-top: 8px;\n    font-family: \"Noto Sans\";\n    font-size: 12pt;\n}\n\n\n", ""]);
 
 // exports
 
@@ -21083,41 +21094,48 @@ var render = function() {
       _c("span", { attrs: { id: "goodTextSpan" } }, [
         _vm._v(_vm._s(_vm.goodText))
       ]),
-      _c("span", { attrs: { id: "badTextSpan" } }, [
-        _vm._v(_vm._s(_vm.badText))
-      ]),
       _vm._v(_vm._s(_vm.textLeft) + "\n    ")
     ]),
     _vm._v(" "),
-    _c("input", {
-      directives: [
-        {
-          name: "model",
-          rawName: "v-model",
-          value: _vm.inputText,
-          expression: "inputText"
-        }
-      ],
-      attrs: {
-        type: "text",
-        id: "textInput",
-        placeholder: "Пиши сюда текст сверху"
+    _c(
+      "div",
+      {
+        staticClass: "placeholder",
+        attrs: { "data-placeholder": _vm.currWord }
       },
-      domProps: { value: _vm.inputText },
-      on: {
-        input: [
-          function($event) {
-            if ($event.target.composing) {
-              return
+      [
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.inputText,
+              expression: "inputText"
             }
-            _vm.inputText = $event.target.value
+          ],
+          attrs: {
+            type: "text",
+            id: "textInput",
+            placeholder: _vm.raceStarted ? "" : "Пиши сюда текст сверху",
+            disabled: !_vm.raceStarted
           },
-          function($event) {
-            return _vm.textThing()
+          domProps: { value: _vm.inputText },
+          on: {
+            input: [
+              function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.inputText = $event.target.value
+              },
+              function($event) {
+                return _vm.textThing()
+              }
+            ]
           }
-        ]
-      }
-    })
+        })
+      ]
+    )
   ])
 }
 var staticRenderFns = []

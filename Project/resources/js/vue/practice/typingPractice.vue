@@ -2,9 +2,12 @@
     <div id="container">
         <h1>Напиши этот текст</h1>
         <div id="textDiv">
-            <span id="goodTextSpan">{{goodText}}</span><span id="badTextSpan">{{badText}}</span>{{textLeft}}
+            <span id="goodTextSpan">{{goodText}}</span>{{textLeft}}
         </div>
-        <input type="text" @input="textThing()" v-model="inputText" id="textInput" placeholder="Пиши сюда текст сверху">
+        <div class="placeholder" :data-placeholder="currWord">
+            <input type="text" @input="textThing()" v-model="inputText" id="textInput"
+                   :placeholder="raceStarted ? '' : 'Пиши сюда текст сверху'" :disabled="!raceStarted">
+        </div>
     </div>
 </template>
 
@@ -14,19 +17,26 @@ export default {
     props: ['text'],
     mounted() {
       this.textLeft = this.text.text;
+      this.allWords = this.textLeft.split(" ");
+
+      setTimeout(() => {
+          this.currWord = this.allWords[this.currWordIndex]
+          this.raceStarted = true;
+      }, 3000);
     },
     data: () => {
         return {
             goodText: '',
-            badText: '',
             textLeft: '',
             inputText: '',
-            lastGoodChar: 0
+            currWord: '',
+            currWordIndex: 0,
+            raceStarted: false
         }
     },
     methods: {
         textThing() {
-
+            
         }
     }
 
@@ -42,6 +52,23 @@ export default {
     padding: 16px;
     margin: 16px auto auto;
     border-radius: 8px;
+}
+
+.placeholder
+{
+    position: relative;
+}
+
+.placeholder::after
+{
+    position: absolute;
+    left: 4px;
+    top: 12px;
+    font-family: "Noto Sans";
+    color: rgba(106,101,104,0.6);
+    content: attr(data-placeholder);
+    pointer-events: none;
+    opacity: 0.6;
 }
 
 #textDiv {
@@ -68,6 +95,8 @@ h1 {
     width: 594px;
     height: 24px;
     margin-top: 8px;
+    font-family: "Noto Sans";
+    font-size: 12pt;
 }
 
 
