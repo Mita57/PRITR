@@ -29,7 +29,8 @@
         </div>
         <div id="topicDiv" class="options_field">
             <label for="topic">Тема</label>
-            <input type="text" id="topic" name="topic" placeholder="Темы" v-model="topic" :disabled="this.anyTopicChecked">
+            <input type="text" id="topic" name="topic" placeholder="Темы" v-model="topic"
+                   :disabled="this.anyTopicChecked">
 
             <input type="checkbox" id="any_topic_cb" name="any_topic" value="any" v-model="anyTopicChecked">
             <label for="any_topic_cb">Любая</label>
@@ -43,19 +44,12 @@ export default {
     name: "textSelector",
     methods: {
         getText() {
-            axios({
-                method: 'GET',
-                url:'api/v1/text/getRandom',
-                params: {
-                    len: this.length,
-                    lang: this.lang,
-                    topic: this.anyTopicChecked ? 'any' : this.topic
-                }
-            }).then((response) => {
-                this.$emit('textReady', response.data);
-            }).catch((response) => {
-                console.error(response);
-            });
+            let params = {
+                len: this.length,
+                lang: this.lang,
+                topic: this.anyTopicChecked ? 'any' : this.topic
+            };
+            this.$emit('searchText', params);
         },
         verifyInputs() {
             return !(this.length && (this.topic || this.anyTopicChecked) && this.lang);

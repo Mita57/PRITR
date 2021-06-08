@@ -1957,6 +1957,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -1967,19 +1969,31 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      text: {
-        "id": 7,
-        "text": "If data is a stream resource, the remaining buffer of that stream will be copied to the specified file. This is similar with using stream_copy_to_stream().",
-        "length": "smol",
-        "topic": "php",
-        "lang": "en",
-        "source": "php"
-      }
+      text: null,
+      settings: null
     };
   },
   methods: {
-    textFound: function textFound(response) {
-      this.text = response;
+    searchText: function searchText(pars) {
+      var _this = this;
+
+      var params = pars;
+
+      if (pars === undefined) {
+        params = this.settings;
+      }
+
+      this.text = null;
+      axios({
+        method: 'GET',
+        url: 'api/v1/text/getRandom',
+        params: params
+      }).then(function (response) {
+        _this.text = response.data;
+        _this.settings = params;
+      })["catch"](function (response) {
+        console.error(response);
+      });
     }
   }
 });
@@ -2035,25 +2049,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "textSelector",
   methods: {
     getText: function getText() {
-      var _this = this;
-
-      axios({
-        method: 'GET',
-        url: 'api/v1/text/getRandom',
-        params: {
-          len: this.length,
-          lang: this.lang,
-          topic: this.anyTopicChecked ? 'any' : this.topic
-        }
-      }).then(function (response) {
-        _this.$emit('textReady', response.data);
-      })["catch"](function (response) {
-        console.error(response);
-      });
+      var params = {
+        len: this.length,
+        lang: this.lang,
+        topic: this.anyTopicChecked ? 'any' : this.topic
+      };
+      this.$emit('searchText', params);
     },
     verifyInputs: function verifyInputs() {
       return !(this.length && (this.topic || this.anyTopicChecked) && this.lang);
@@ -2093,6 +2099,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "typingPractice",
   props: ['text'],
@@ -2101,10 +2118,24 @@ __webpack_require__.r(__webpack_exports__);
 
     this.textLeft = this.text.text;
     this.allWords = this.textLeft.split(" ");
-    setTimeout(function () {
+    this.gameBeginTimeout = setTimeout(function () {
       _this.currWord = _this.allWords[_this.currWordIndex];
+      _this.raceBegin = Date.now();
       _this.raceStarted = true;
     }, 3000);
+    this.intervalThing = setInterval(function () {
+      if (!_this.raceStarted) {
+        _this.secsTillGameStarts -= 0.1;
+      } else {
+        if (!_this.gameEnded) {
+          _this.charsEntered += 0.0000000001;
+          _this.secsEllapsed += 0.1;
+        }
+      }
+    }, 100);
+    setTimeout(function () {
+      document.getElementById('textInput').focus();
+    }, 3010);
   },
   data: function data() {
     return {
@@ -2112,12 +2143,66 @@ __webpack_require__.r(__webpack_exports__);
       textLeft: '',
       inputText: '',
       currWord: '',
+      allWords: [],
       currWordIndex: 0,
-      raceStarted: false
+      raceStarted: false,
+      hasError: false,
+      raceBegin: null,
+      gameEnded: false,
+      charsEntered: 0,
+      secsTillGameStarts: 3,
+      intervalThing: null,
+      secsEllapsed: 0
     };
   },
   methods: {
-    textThing: function textThing() {}
+    textThing: function textThing() {
+      var re = new RegExp(this.inputText + '.*');
+
+      if (this.inputText.indexOf(' ') >= 0 && re.test(this.currWord + " ")) {
+        this.nextWord();
+      }
+
+      if (this.currWordIndex === this.allWords.length - 1 && this.currWord === this.inputText) {
+        this.nextWord();
+        this.gameOver();
+      }
+
+      this.hasError = !(re.test(this.currWord) || this.inputText === '');
+    },
+    getCpm: function getCpm() {
+      return this.getCps() * 60;
+    },
+    getWpm: function getWpm() {
+      return this.getCpm() / 5;
+    },
+    getCps: function getCps() {
+      var secsPassed = (Date.now() - this.raceBegin) / 1000;
+      return this.charsEntered / secsPassed;
+    },
+    getStyle: function getStyle() {
+      if (this.hasError) {
+        return {
+          backgroundColor: 'tomato'
+        };
+      }
+
+      return {
+        backgroundColor: 'white'
+      };
+    },
+    nextWord: function nextWord() {
+      this.goodText += this.allWords[this.currWordIndex] + ' ';
+      this.textLeft = this.text.text.slice(this.goodText.length);
+      this.charsEntered += this.currWord.length;
+      this.currWordIndex++;
+      this.currWord = this.allWords[this.currWordIndex];
+      this.inputText = '';
+    },
+    gameOver: function gameOver() {
+      this.gameEnded = true;
+      clearInterval(this.intervalThing);
+    }
   }
 });
 
@@ -2244,7 +2329,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n#container[data-v-142b2fe2] {\n    width: 600px;\n    text-align: center;\n    background-color: #cdcdcd;\n    padding: 16px;\n    margin: 16px auto auto;\n    border-radius: 8px;\n}\n.placeholder[data-v-142b2fe2]\n{\n    position: relative;\n}\n.placeholder[data-v-142b2fe2]::after\n{\n    position: absolute;\n    left: 4px;\n    top: 12px;\n    font-family: \"Noto Sans\";\n    color: rgba(106,101,104,0.6);\n    content: attr(data-placeholder);\n    pointer-events: none;\n    opacity: 0.6;\n}\n#textDiv[data-v-142b2fe2] {\n    background-color: #dcdcdc;\n    text-align: justify;\n    font-size: 14pt;\n    padding: 8px;\n}\nh1[data-v-142b2fe2] {\n    margin-top: 0;\n}\n#goodTextSpan[data-v-142b2fe2] {\n    color: #00961d;\n}\n#badTextSpan[data-v-142b2fe2] {\n    background-color: #6a272f;\n    color: #FFFFFF;\n}\n#textInput[data-v-142b2fe2] {\n    width: 594px;\n    height: 24px;\n    margin-top: 8px;\n    font-family: \"Noto Sans\";\n    font-size: 12pt;\n}\n\n\n", ""]);
+exports.push([module.i, "\n#container[data-v-142b2fe2] {\n    width: 600px;\n    text-align: center;\n    background-color: #cdcdcd;\n    padding: 16px;\n    margin: 16px auto auto;\n    border-radius: 8px;\n}\n.placeholder[data-v-142b2fe2] {\n    position: relative;\n}\n.placeholder[data-v-142b2fe2]::after {\n    position: absolute;\n    left: 4px;\n    top: 12px;\n    font-family: \"Noto Sans\";\n    color: rgba(106, 101, 104, 0.6);\n    content: attr(data-placeholder);\n    pointer-events: none;\n    opacity: 0.6;\n}\n#textDiv[data-v-142b2fe2] {\n    background-color: #f6f6f6;\n    text-align: justify;\n    font-size: 14pt;\n    padding: 8px;\n}\nh1[data-v-142b2fe2] {\n    margin-top: 0;\n}\n#goodTextSpan[data-v-142b2fe2] {\n    color: #00de2b;\n    border-right: black 2px;\n}\n#badTextSpan[data-v-142b2fe2] {\n    background-color: #6a272f;\n    color: #FFFFFF;\n}\n#textInput[data-v-142b2fe2] {\n    width: 594px;\n    height: 24px;\n    margin-top: 8px;\n    font-family: \"Noto Sans\";\n    font-size: 12pt;\n}\n#speeds[data-v-142b2fe2] {\n    display: flex;\n    flex-direction: row;\n    justify-content: space-around;\n}\n#bts[data-v-142b2fe2] {\n    display: flex;\n    flex-direction: row;\n    justify-content: space-around;\n    margin-top: 8px;\n}\n#bts button[data-v-142b2fe2] {\n    height: 40px;\n    width: 200px;\n    border: none;\n    background-color: #530000;\n    color: #FFFFFF;\n    font-size: 14pt;\n    transition: 0.3s;\n    cursor: pointer;\n}\n\n\n", ""]);
 
 // exports
 
@@ -20785,9 +20870,17 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm.text === null
-    ? _c("text-selector", { on: { textReady: _vm.textFound } })
-    : _c("typing-practice", { attrs: { text: this.text } })
+  return !_vm.text
+    ? _c("text-selector", { on: { searchText: _vm.searchText } })
+    : _c("typing-practice", {
+        attrs: { text: this.text },
+        on: {
+          changeSettings: function($event) {
+            _vm.text = null
+          },
+          newText: _vm.searchText
+        }
+      })
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -21088,7 +21181,22 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { attrs: { id: "container" } }, [
-    _c("h1", [_vm._v("Напиши этот текст")]),
+    _c("h1", [
+      _vm._v(
+        "Напиши этот текст " +
+          _vm._s(
+            !_vm.raceStarted
+              ? "(" + _vm.secsTillGameStarts.toFixed(1) + ")"
+              : ""
+          )
+      )
+    ]),
+    _vm._v(" "),
+    _vm.raceStarted
+      ? _c("h3", [
+          _vm._v("Время: " + _vm._s(_vm.secsEllapsed.toFixed(1)) + " сек")
+        ])
+      : _vm._e(),
     _vm._v(" "),
     _c("div", { attrs: { id: "textDiv" } }, [
       _c("span", { attrs: { id: "goodTextSpan" } }, [
@@ -21104,38 +21212,77 @@ var render = function() {
         attrs: { "data-placeholder": _vm.currWord }
       },
       [
-        _c("input", {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.inputText,
-              expression: "inputText"
-            }
-          ],
-          attrs: {
-            type: "text",
-            id: "textInput",
-            placeholder: _vm.raceStarted ? "" : "Пиши сюда текст сверху",
-            disabled: !_vm.raceStarted
-          },
-          domProps: { value: _vm.inputText },
-          on: {
-            input: [
-              function($event) {
-                if ($event.target.composing) {
-                  return
+        !_vm.gameEnded
+          ? _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.inputText,
+                  expression: "inputText"
                 }
-                _vm.inputText = $event.target.value
+              ],
+              style: _vm.getStyle(),
+              attrs: {
+                type: "text",
+                id: "textInput",
+                placeholder: _vm.raceStarted ? "" : "Пиши сюда текст сверху",
+                disabled: !_vm.raceStarted
               },
-              function($event) {
-                return _vm.textThing()
+              domProps: { value: _vm.inputText },
+              on: {
+                input: [
+                  function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.inputText = $event.target.value
+                  },
+                  function($event) {
+                    return _vm.textThing()
+                  }
+                ]
               }
-            ]
-          }
-        })
+            })
+          : _vm._e()
       ]
-    )
+    ),
+    _vm._v(" "),
+    _vm.raceStarted
+      ? _c("div", { attrs: { id: "speeds" } }, [
+          _c("div", [_vm._v("CPM: " + _vm._s(Math.round(_vm.getCpm())))]),
+          _vm._v(" "),
+          _c("div", [_vm._v("WPM: " + _vm._s(Math.round(_vm.getWpm())))]),
+          _vm._v(" "),
+          _c("div", [_vm._v("CPS: " + _vm._s(Math.round(_vm.getCps())))])
+        ])
+      : _vm._e(),
+    _vm._v(" "),
+    _c("div", { attrs: { id: "bts" } }, [
+      _c(
+        "button",
+        {
+          on: {
+            click: function($event) {
+              return _vm.$emit("newText")
+            }
+          }
+        },
+        [_vm._v("Новый текст")]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          on: {
+            click: function($event) {
+              return _vm.$emit("changeSettings")
+            }
+          }
+        },
+        [_vm._v("Поменять настройки")]
+      )
+    ])
   ])
 }
 var staticRenderFns = []
