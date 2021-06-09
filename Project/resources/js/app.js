@@ -13,7 +13,8 @@ Vue.use(Vuex);
 
 const store = new Vuex.Store({
     state: {
-        token: localStorage.getItem('access_token') || null
+        token: localStorage.getItem('access_token') || null,
+        userName: null
     },
 
     getters: {
@@ -86,7 +87,7 @@ const store = new Vuex.Store({
                     })
             })
     }
-})
+}})
 
 const router = new VueRouter({
     mode: 'history',
@@ -112,5 +113,6 @@ const router = new VueRouter({
 const app = new Vue({
     el: '#app',
     router,
+    store: store,
     components: {App}
 });

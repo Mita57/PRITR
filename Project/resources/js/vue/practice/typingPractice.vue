@@ -14,6 +14,7 @@
             <div>CPM: {{Math.round(getCpm())}}</div>
             <div>WPM: {{Math.round(getWpm())}}</div>
             <div>CPS: {{Math.round(getCps())}}</div>
+            <div>Acc: {{Math.round(getAcc())}}</div>
         </div>
         <div id="bts">
             <button @click="$emit('newText')">Новый текст</button>
@@ -66,9 +67,11 @@ export default {
             raceBegin: null,
             gameEnded: false,
             charsEntered: 0,
+            allCharsEntered: 0,
             secsTillGameStarts: 3,
             intervalThing: null,
-            secsEllapsed: 0
+            secsEllapsed: 0,
+            errors: 0
         }
     },
     methods: {
@@ -84,6 +87,13 @@ export default {
             }
 
             this.hasError = !(re.test(this.currWord) || this.inputText === '');
+
+            this.allCharsEntered++;
+
+
+            if (this.hasError) {
+                this.errors++;
+            }
         },
 
         getCpm() {
@@ -97,6 +107,10 @@ export default {
         getCps() {
             const secsPassed = (Date.now() - this.raceBegin) / 1000;
             return this.charsEntered / secsPassed;
+        },
+
+        getAcc() {
+            return 100 - ((this.errors / this.allCharsEntered) * 100);
         },
 
         getStyle() {
