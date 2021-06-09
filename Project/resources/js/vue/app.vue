@@ -17,10 +17,11 @@
                 <router-link to="/texts">Предложить текст</router-link>
             </div>
             <div class="menu-item" id="acc" v-if="loggedIn">
-                <img class="user_pic" src="https://sun9-10.userapi.com/s/v1/ig2/LS5dHm4PYRXUVKrOAaHT_tqVbPuykRwE8UDSQhez_Ek4c3PCwvyZAG_ZSMp28KSJz962LJVfb5On1uHIWLdSB-5-.jpg?size=200x0&quality=96&crop=116,0,692,692&ava=1">
-                <span style="display: inline">Account</span>
+                <img class="user_pic"
+                     src="https://sun9-10.userapi.com/s/v1/ig2/LS5dHm4PYRXUVKrOAaHT_tqVbPuykRwE8UDSQhez_Ek4c3PCwvyZAG_ZSMp28KSJz962LJVfb5On1uHIWLdSB-5-.jpg?size=200x0&quality=96&crop=116,0,692,692&ava=1">
+                <span style="display: inline">{{username}}</span>
             </div>
-            <div class="menu-item" id="logOut" v-if="loggedIn">
+            <div class="menu-item" id="logOut" v-if="loggedIn" @click="logOut">
                 <span>Выйти</span>
             </div>
             <div class="menu-item" id="logIn" v-if="!loggedIn" @click="loginVisible = !loginVisible">
@@ -32,10 +33,10 @@
             <div id="logInOverlay" v-if="loginVisible">
                 <h2>Вход</h2>
                 <label for="email">Email</label>
-                <p><input type="email" id="email" v-model="email"></p>
+                <p><input type="email" id="email" v-model="email" @input="validateInputs"></p>
                 <label for="pwrd">Пароль</label>
-                <p><input type="password" id="pwrd" v-model="password"></p>
-                <button id="loginButton">Войти</button>
+                <p><input type="password" id="pwrd" v-model="password" @input="validateInputs"></p>
+                <button id="loginButton" :disabled="loginBtnDisabled" @click="login">Войти</button>
             </div>
         </div>
         <router-view></router-view>
@@ -44,39 +45,69 @@
 
 <script>
 
-    export default {
-        name: "app",
-        data: () => {
-          return {
-              email: '',
-              password: '',
-              loginVisible: false,
-          }
-        },
+export default {
+    name: "app",
+    data: () => {
+        return {
+            email: '',
+            password: '',
+            loginVisible: false,
+            loginBtnDisabled: true,
+        }
+    },
 
-        created() {
-            window.addEventListener('click', this.closeLogin);
-        },
+    created() {
+        window.addEventListener('click', this.closeLogin);
+    },
 
-        destroyed() {
-            window.removeEventListener('click', this.closeLogin);
-        },
+    destroyed() {
+        window.removeEventListener('click', this.closeLogin);
+    },
 
-        methods: {
-          closeLogin(e) {
-                if (!e.path.includes(document.getElementById('logInOverlay')) &&
-                    !e.path.includes(document.getElementById('logIn'))) {
-                    this.loginVisible = false;
-                }
+    methods: {
+        closeLogin(e) {
+            if (!e.path.includes(document.getElementById('logInOverlay')) &&
+                !e.path.includes(document.getElementById('logIn'))) {
+                this.loginVisible = false;
             }
         },
 
-        computed: {
-            loggedIn() {
-                return this.$store.getters.loggedIn;
+        validateInputs() {
+            const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            if (re.test(String(this.email).toLowerCase()) && this.password.length >= 6) {
+                this.loginBtnDisabled = false;
+            } else {
+                this.loginBtnDisabled = true;
             }
+        },
+
+        login() {
+            this.$store.dispatch('retrieveToken', {
+                username: this.email,
+                password: this.password,
+            }).then(response => {
+                this.loginVisible = false;
+            });
+        },
+
+        logOut() {
+            this.$store.dispatch('destroyToken')
+                .then(response => {
+                    //
+                });
+        }
+    },
+
+    computed: {
+        loggedIn() {
+            return this.$store.getters.loggedIn;
+        },
+
+        username() {
+            return this.$store.getters.getUsername;
         }
     }
+}
 </script>
 
 <style scoped>
@@ -99,7 +130,7 @@ a {
     position: absolute;
     right: 0;
     background-color: #FFFFFF;
-    height: 192px;
+    height: 200px;
     padding: 16px;
     text-align: center;
     width: 350px;
@@ -109,6 +140,7 @@ a {
 
 #logInOverlay input {
     width: 300px;
+    height: 24px;
 }
 
 #logInOverlay p {
@@ -151,6 +183,7 @@ h2 {
     color: #FFFFFF;
     font-size: 14pt;
     border: none;
+    font-family: "Noto Sans";
     transition: 0.3s;
     cursor: pointer;
     margin-top: 8px;

@@ -25,7 +25,16 @@ class AuthController extends Controller
                     'scope'=>''
                 ]
             ]);
-            return $response->getBody();
+
+            $nick = User::where('email', '=', $request->email)->get()[0]->username;
+
+            $resp = json_decode($response->getBody()->getContents(), true);
+
+            $resp['nick'] = $nick;
+
+            file_put_contents('C:\Users\57thr\Documents\GitHub\PRITR\Project\app\Http\Controllers\log.txt', json_encode($resp));
+
+            return json_encode($resp);
 
         } catch (\GuzzleHttp\Exception\BadResponseException $e) {
             if ($e->getCode() === 400) {
@@ -39,10 +48,11 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         $request->validate([
-            'username' => 'required|string|max:255',
+            'username' => 'required|string|max:255|min:3',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6',
         ]);
+
 
 
         return User::create([

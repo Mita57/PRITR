@@ -15,12 +15,16 @@ Vue.use(Vuex);
 const store = new Vuex.Store({
     state: {
         token: localStorage.getItem('access_token') || null,
-        userName: null
+        userName: localStorage.getItem('username') ||null
     },
 
     getters: {
         loggedIn(state) {
             return state.token !== null;
+        },
+
+        getUsername(state) {
+            return state.userName;
         }
     },
 
@@ -31,13 +35,16 @@ const store = new Vuex.Store({
         destroyToken(state) {
             state.token = null;
         },
+        setUsername(state, name) {
+            state.userName = name;
+        }
     },
 
     actions: {
         register(context, data) {
             return new Promise((resolve, reject) => {
                 axios.post('/api/v1/register', {
-                    name: data.name,
+                    username: data.name,
                     email: data.email,
                     password: data.password,
                 })
@@ -72,14 +79,17 @@ const store = new Vuex.Store({
 
             return new Promise((resolve, reject) => {
                 axios.post('/api/v1/login', {
-                    username: credentials.username,
+                    email: credentials.username,
                     password: credentials.password,
                 })
                     .then(response => {
                         const token = response.data.access_token;
+                        const username = response.data.nick;
 
                         localStorage.setItem('access_token', token);
+                        localStorage.setItem('username', username);
                         context.commit('retrieveToken', token);
+                        context.commit('setUsername', username);
                         resolve(response);
                     })
                     .catch(error => {

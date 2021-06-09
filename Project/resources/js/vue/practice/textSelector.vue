@@ -101,6 +101,7 @@ h1 {
     border: none;
     transition: 0.3s;
     cursor: pointer;
+    font-family: "Noto Sans";
 }
 
 #findText:hover {
