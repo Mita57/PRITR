@@ -27,7 +27,7 @@
                 <span>Войти</span>
             </div>
             <div class="menu-item" id="Register" v-if="!loggedIn">
-                <span>Зарегаца</span>
+                <router-link to="/register">Зарегаца</router-link>
             </div>
             <div id="logInOverlay" v-if="loginVisible">
                 <h2>Вход</h2>
@@ -35,7 +35,7 @@
                 <p><input type="email" id="email" v-model="email"></p>
                 <label for="pwrd">Пароль</label>
                 <p><input type="password" id="pwrd" v-model="password"></p>
-                <button>Войти</button>
+                <button id="loginButton">Войти</button>
             </div>
         </div>
         <router-view></router-view>
@@ -52,6 +52,23 @@
               password: '',
               loginVisible: false,
           }
+        },
+
+        created() {
+            window.addEventListener('click', this.closeLogin);
+        },
+
+        destroyed() {
+            window.removeEventListener('click', this.closeLogin);
+        },
+
+        methods: {
+          closeLogin(e) {
+                if (!e.path.includes(document.getElementById('logInOverlay')) &&
+                    !e.path.includes(document.getElementById('logIn'))) {
+                    this.loginVisible = false;
+                }
+            }
         },
 
         computed: {
@@ -82,7 +99,7 @@ a {
     position: absolute;
     right: 0;
     background-color: #FFFFFF;
-    height: 160px;
+    height: 192px;
     padding: 16px;
     text-align: center;
     width: 350px;
@@ -125,6 +142,28 @@ a {
 
 h2 {
     margin: 0 0 8px;
+}
+
+#loginButton {
+    height: 40px;
+    width: 200px;
+    background-color: #530000;
+    color: #FFFFFF;
+    font-size: 14pt;
+    border: none;
+    transition: 0.3s;
+    cursor: pointer;
+    margin-top: 8px;
+}
+
+#loginButton:hover {
+    background-color: #693838;
+}
+
+#loginButton:disabled {
+    background-color: #915656;
+    color: #c8a4a4;
+    cursor: default;
 }
 
 </style>

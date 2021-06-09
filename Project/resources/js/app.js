@@ -1,5 +1,6 @@
 import suggestText from "./vue/suggestText";
 import practiceRace from "./vue/practice/practiceRace";
+import register from "./vue/register";
 
 require('./bootstrap');
 import Vue from 'vue';
@@ -106,6 +107,11 @@ const router = new VueRouter({
             path: '/practiceRace',
             name: 'PracticeRace',
             component: practiceRace
+        },
+        {
+            path:'/register',
+            name:'Register',
+            component: register
         }
     ]
 })
