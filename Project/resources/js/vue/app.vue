@@ -1,25 +1,24 @@
 <template>
     <div id="app">
         <div id="menu">
-            <div class="menu-item">
-                <router-link to="/texts">Обычная гонка</router-link>
-            </div>
-            <div class="menu-item">
-                <router-link to="/texts">Ошибки</router-link>
-            </div>
-            <div class="menu-item">
-                <router-link to="/practiceRace">Тренировка</router-link>
-            </div>
-            <div class="menu-item">
-                <router-link to="/texts">Играть с друзьями</router-link>
-            </div>
-            <div class="menu-item">
-                <router-link to="/texts">Предложить текст</router-link>
-            </div>
+            <router-link to="/defaultRace">
+                <div class="menu-item">Обычная гонка</div>
+            </router-link>
+            <router-link to="/texts">
+                <div class="menu-item">Ошибки</div>
+            </router-link>
+            <router-link to="/practiceRace">
+                <div class="menu-item">Тренировка</div>
+            </router-link>
+            <router-link to="/texts">
+            <div class="menu-item">Играть с друзьями</div>
+            </router-link>
+            <router-link to="/texts"><div class="menu-item">Предложить текст</div>
+            </router-link>
             <div class="menu-item" id="acc" v-if="loggedIn">
                 <img class="user_pic"
                      src="https://sun9-10.userapi.com/s/v1/ig2/LS5dHm4PYRXUVKrOAaHT_tqVbPuykRwE8UDSQhez_Ek4c3PCwvyZAG_ZSMp28KSJz962LJVfb5On1uHIWLdSB-5-.jpg?size=200x0&quality=96&crop=116,0,692,692&ava=1">
-                <span style="display: inline">{{username}}</span>
+                <span style="display: inline">{{ username }}</span>
             </div>
             <div class="menu-item" id="logOut" v-if="loggedIn" @click="logOut">
                 <span>Выйти</span>

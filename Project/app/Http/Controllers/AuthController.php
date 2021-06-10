@@ -32,7 +32,6 @@ class AuthController extends Controller
 
             $resp['nick'] = $nick;
 
-            file_put_contents('C:\Users\57thr\Documents\GitHub\PRITR\Project\app\Http\Controllers\log.txt', json_encode($resp));
 
             return json_encode($resp);
 

@@ -8,6 +8,7 @@ import App from './vue/app';
 import VueRouter from "vue-router";
 import Vuex from 'vuex';
 import axios from 'axios';
+import defaultRace from "./vue/defRace/defaultRace";
 
 Vue.use(VueRouter);
 Vue.use(Vuex);
@@ -15,7 +16,7 @@ Vue.use(Vuex);
 const store = new Vuex.Store({
     state: {
         token: localStorage.getItem('access_token') || null,
-        userName: localStorage.getItem('username') ||null
+        userName: localStorage.getItem('username') || null
     },
 
     getters: {
@@ -97,16 +98,17 @@ const store = new Vuex.Store({
                         reject(error);
                     })
             })
+        }
     }
-}})
+})
 
 const router = new VueRouter({
     mode: 'history',
-    routes:[
+    routes: [
         {
-          path: '',
-          name: 'Index',
-          component: practiceRace
+            path: '',
+            name: 'Index',
+            component: practiceRace
         },
         {
             path: '/texts',
@@ -119,11 +121,33 @@ const router = new VueRouter({
             component: practiceRace
         },
         {
-            path:'/register',
-            name:'Register',
-            component: register
+            path: '/register',
+            name: 'Register',
+            component: register,
+            meta: {
+                requiresVisitor: true
+            }
+        },
+        {
+            path: '/defaultRace',
+            name:'DefaultRace',
+            component: defaultRace
         }
     ]
+})
+
+router.beforeEach((to, from, next) => {
+    if (to.matched.some(record => record.meta.requiresVisitor)) {
+        if (store.getters.loggedIn) {
+            next({
+                path: '/practiceRace',
+            })
+        } else {
+            next();
+        }
+    } else {
+        next();
+    }
 })
 
 const app = new Vue({

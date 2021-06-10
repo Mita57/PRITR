@@ -51,7 +51,7 @@ export default {
                     username: this.email,
                     password: this.password,
                 }).then(response => {
-                    this.$router.push((''));
+                    this.$router.push(('/practiceRace'));
                 });
             }).catch(response => {
                 this.emailError = true;

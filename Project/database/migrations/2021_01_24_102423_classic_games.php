@@ -16,6 +16,7 @@ class ClassicGames extends Migration
         Schema::create('classic_games', function (Blueprint $table) {
             $table->id('id');
             $table->integer('text_id');
+            $table->boolean('started');
             $table->foreign('text_id')->references('id')->on('texts');
         });
     }
