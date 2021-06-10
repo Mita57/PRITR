@@ -1,5 +1,8 @@
 <template>
     <div id="race">
+        <div id="rivalsInfo">
+        </div>
+
         <div id="textContainer">
             <h1>Напиши этот текст {{ !raceStarted ? '(' + secsTillGameStarts.toFixed(1) + ')' : "" }}</h1>
             <h3 v-if="raceStarted">Время: {{ secsEllapsed.toFixed(1) }} сек</h3>
@@ -37,7 +40,16 @@ export default {
 
 
         this.intervalThing = setInterval(() => {
+            if (this.countDown && !this.raceStarted) {
+               this.secsTillGameStarts -= 0.1;
+            }
 
+            if (this.raceStarted) {
+                if (!this.gameEnded) {
+                    this.charsEntered += 0.0000000001;
+                    this.secsEllapsed += 0.1;
+                }
+            }
         },)
 
     },
@@ -56,7 +68,7 @@ export default {
             gameEnded: false,
             charsEntered: 0,
             allCharsEntered: 0,
-            secsTillGameStarts: 3,
+            secsTillGameStarts: 10,
             intervalThing: null,
             secsEllapsed: 0,
             errors: 0,
@@ -137,11 +149,17 @@ export default {
                     }
                 });
 
+                this.countDown = true;
+
                 setTimeout(() => {
                     this.currWord = this.allWords[this.currWordIndex]
                     this.raceBegin = Date.now();
                     this.raceStarted = true;
                 }, 10000);
+
+                setTimeout(() => {
+                    document.getElementById('textInput').focus();
+                }, 10010);
             }
         },
 
