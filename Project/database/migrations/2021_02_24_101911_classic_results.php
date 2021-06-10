@@ -16,10 +16,10 @@ class ClassicResults extends Migration
         Schema::create('classic_results', function (Blueprint $table) {
             $table->id('game_id');
             $table->string('user');
-            $table->integer('place');
-            $table->integer('time');
-            $table->integer('completion');
-            $table->integer('cpm');
+            $table->integer('place')->nullable();
+            $table->integer('time')->nullable();
+            $table->integer('completion')->nullable();
+            $table->integer('cpm')->nullable();
             $table->foreign('game_id')->references('id')->on('classic_games');
         });
     }

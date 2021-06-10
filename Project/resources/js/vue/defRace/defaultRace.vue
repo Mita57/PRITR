@@ -1,5 +1,5 @@
 <template>
-    <race-text-selector v-if="!settingsSet" v-on:findGame=""></race-text-selector>
+    <race-text-selector v-if="game == null" v-on:findGame="findGame"></race-text-selector>
     <typing-race v-else game="game"></typing-race>
 </template>
 
@@ -9,10 +9,18 @@ import TypingRace from "./typingRace";
 export default {
     name: "defaultRace",
     components: {TypingRace, RaceTextSelector},
+
     data: () => {
         return {
-            settingsSet: false,
+            settingsSet: null,
             game: null
+        }
+    },
+
+    methods: {
+        findGame(params) {
+            this.settingsSet = params;
+
         }
     }
 }
