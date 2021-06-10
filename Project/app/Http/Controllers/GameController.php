@@ -60,10 +60,10 @@ class GameController extends Controller {
         return $game;
     }
 
-    public function join_game($game_id, $user) {
+    public function join_game($game_id) {
         $game_res = new GameResult();
 
-        $game_res->user = $user;
+        $game_res->user = auth()->user()->id;
 
         $game_res->save();
 
@@ -71,6 +71,9 @@ class GameController extends Controller {
     }
 
     public function get_game_members($game_id) {
+        $members = GameResult::with('user')::where('game_id', $game_id)->get();
+
+        return $members;
 
     }
 

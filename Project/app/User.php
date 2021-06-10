@@ -33,5 +33,9 @@ class User extends Authenticatable {
         'password', 'remember_token',
     ];
 
+    public function game_result() {
+        return $this->belongsTo('App\GameResult');
+    }
+
 
 }
