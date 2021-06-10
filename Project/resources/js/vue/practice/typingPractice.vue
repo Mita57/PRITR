@@ -31,7 +31,7 @@ export default {
         this.textLeft = this.text.text;
         this.allWords = this.textLeft.split(" ");
 
-        this.gameBeginTimeout = setTimeout(() => {
+        setTimeout(() => {
             this.currWord = this.allWords[this.currWordIndex]
             this.raceBegin = Date.now();
             this.raceStarted = true;

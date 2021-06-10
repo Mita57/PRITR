@@ -1,8 +1,8 @@
 <template>
     <div id="race">
         <div id="textContainer">
-            <h1>Напиши этот текст {{!raceStarted ? '(' + secsTillGameStarts.toFixed(1) + ')' : ""}}</h1>
-            <h3 v-if="raceStarted">Время: {{secsEllapsed.toFixed(1)}} сек</h3>
+            <h1>Напиши этот текст {{ !raceStarted ? '(' + secsTillGameStarts.toFixed(1) + ')' : "" }}</h1>
+            <h3 v-if="raceStarted">Время: {{ secsEllapsed.toFixed(1) }} сек</h3>
             <div id="textDiv">
                 <span id="goodTextSpan">{{ goodText }}</span>{{ textLeft }}
             </div>
@@ -12,10 +12,10 @@
                        :placeholder="raceStarted ? '' : 'Пиши сюда текст сверху'" :disabled="!raceStarted">
             </div>
             <div id="speeds" v-if="raceStarted">
-                <div>CPM: {{Math.round(getCpm())}}</div>
-                <div>WPM: {{Math.round(getWpm())}}</div>
-                <div>CPS: {{Math.round(getCps())}}</div>
-                <div>Acc: {{Math.round(getAcc())}}</div>
+                <div>CPM: {{ Math.round(getCpm()) }}</div>
+                <div>WPM: {{ Math.round(getWpm()) }}</div>
+                <div>CPS: {{ Math.round(getCps()) }}</div>
+                <div>Acc: {{ Math.round(getAcc()) }}</div>
             </div>
             <div id="bts">
                 <button @click="$emit('newText')">Новый текст</button>
@@ -27,7 +27,7 @@
 
 <script>
 export default {
-    name: "typingRace",
+    name: "raceTyping",
 
     props: ['game'],
 
@@ -35,27 +35,10 @@ export default {
         this.textLeft = this.game.text;
         this.allWords = this.textLeft.split(" ");
 
-        this.gameBeginTimeout = setTimeout(() => {
-            this.currWord = this.allWords[this.currWordIndex]
-            this.raceBegin = Date.now();
-            this.raceStarted = true;
-        }, 3000);
 
         this.intervalThing = setInterval(() => {
-            if (!this.raceStarted) {
-                this.secsTillGameStarts -= 0.1;
-            } else {
-                if (!this.gameEnded) {
-                    this.charsEntered += 0.0000000001;
-                    this.secsEllapsed += 0.1;
-                }
-            }
-        }, 100)
 
-        setTimeout(() => {
-            document.getElementById('textInput').focus();
-        }, 3010);
-
+        },)
 
     },
 
@@ -76,7 +59,9 @@ export default {
             secsTillGameStarts: 3,
             intervalThing: null,
             secsEllapsed: 0,
-            errors: 0
+            errors: 0,
+            rivals: [],
+            countDown: false,
         }
     },
     methods: {
@@ -127,6 +112,37 @@ export default {
             return {
                 backgroundColor: 'white'
             };
+        },
+
+        getGameMembers() {
+            axios({
+                method: 'GET',
+                url: '/api/v1/defaultRace/getGameMembers',
+                params: {
+                    gameId: this.game.id
+                }
+            }).then((response) => {
+                this.rivals = response.data;
+            }).catch((response) => {
+                console.log(response);
+            });
+
+            if (this.rivals.length >= 2 && !this.countDown) {
+
+                axios({
+                    method: 'POST',
+                    url: '/api/v1/defaultRace/startGame',
+                    data: {
+                        id: this.game.id
+                    }
+                });
+
+                setTimeout(() => {
+                    this.currWord = this.allWords[this.currWordIndex]
+                    this.raceBegin = Date.now();
+                    this.raceStarted = true;
+                }, 10000);
+            }
         },
 
         nextWord() {

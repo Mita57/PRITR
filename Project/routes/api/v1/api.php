@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TextController;
+use App\Http\Controllers\GameController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,6 +22,14 @@ Route::prefix('/text')->group(function () {
     Route::put('{id}', [TextController::class, 'update']);
     Route::delete('{id}', [TextController::class, 'destroy']);
     Route::get('/show/{id}', [TextController::class, 'show']);
+});
+
+Route::prefix('/defaultRace')->group(function () {
+    Route::get('/getRace', [GameController::class, 'index']);
+    Route::post('/startGame', [GameController::class, 'startGame']);
+    Route::post('/joinGame', [GameController::class, 'join_game']);
+    Route::get('/getGameMembers', [GameController::class, 'get_game_members']);
+
 });
 
 Route::middleware('auth:api')->group(function () {

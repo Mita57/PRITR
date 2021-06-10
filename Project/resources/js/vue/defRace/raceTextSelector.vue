@@ -49,7 +49,7 @@ export default {
                 lang: this.lang,
                 topic: this.anyTopicChecked ? 'any' : this.topic
             };
-            this.$emit('searchText', params);
+            this.$emit('findGame', params);
         },
         verifyInputs() {
             return !(this.length && (this.topic || this.anyTopicChecked) && this.lang);

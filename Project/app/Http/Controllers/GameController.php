@@ -8,6 +8,11 @@ use Illuminate\Http\Request;
 use App\Game;
 
 class GameController extends Controller {
+
+    /**
+     * Get a race with certain settings, if there are no races, create one and return it
+     *
+     */
     public function index(Request $request) {
         $len = $request->input('len') == 'any' ? ['smol', 'med', 'long'] :
             [$request->input('len')];
@@ -53,25 +58,40 @@ class GameController extends Controller {
     }
 
 
-    public function startGame($id) {
-        $game = Game::where('id', '=', $id)->started = true;
+    public function startGame(Request $request){
+        $id = $request->id;
+
+        $game = Game::where('id', '=', $id)->where('started', '=', false)->started = true;
+        if(!$game) {
+            return 0;
+        }
         $game->save();
 
         return $game;
     }
 
-    public function join_game($game_id) {
+    public function join_game(Request $request) {
+        $game_id = $request->gameId;
+
         $game_res = new GameResult();
 
         $game_res->user = auth()->user()->id;
+
+        $game_res->game_id = $game_id;
 
         $game_res->save();
 
         return $this->get_game_members($game_id);
     }
 
-    public function get_game_members($game_id) {
-        $members = GameResult::with('user')::where('game_id', $game_id)->get();
+    /**
+     * Gets the members of the race as well as the results
+     *
+     * @param int $id
+     */
+    public function get_game_members(Request $request){
+        $members = GameResult::with('user')::where('game_id', $request->input('gameId'))->get();
+
 
         return $members;
 

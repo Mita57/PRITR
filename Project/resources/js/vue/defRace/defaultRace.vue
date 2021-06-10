@@ -1,14 +1,15 @@
 <template>
     <race-text-selector v-if="game == null" v-on:findGame="findGame"></race-text-selector>
-    <typing-race v-else game="game"></typing-race>
+    <race-typing v-else game="game"></race-typing>
 </template>
 
 <script>
 import RaceTextSelector from "./raceTextSelector";
-import TypingRace from "./typingRace";
+import RaceTyping from "./raceTyping";
+
 export default {
     name: "defaultRace",
-    components: {TypingRace, RaceTextSelector},
+    components: {RaceTyping, RaceTextSelector},
 
     data: () => {
         return {
@@ -20,6 +21,15 @@ export default {
     methods: {
         findGame(params) {
             this.settingsSet = params;
+            axios({
+                method: 'GET',
+                url: 'api/v1/defaultRace/getRace',
+                params: params
+            }).then((response) => {
+                this.game = response.data;
+            }).catch((response) => {
+                console.log(response);
+            })
 
         }
     }
