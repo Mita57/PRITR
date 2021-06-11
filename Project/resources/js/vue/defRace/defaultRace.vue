@@ -6,6 +6,7 @@
 <script>
 import RaceTextSelector from "./raceTextSelector";
 import RaceTyping from "./raceTyping";
+import axios from "axios";
 
 export default {
     name: "defaultRace",
@@ -21,12 +22,20 @@ export default {
     methods: {
         findGame(params) {
             this.settingsSet = params;
+            axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.$store.state.token;
             axios({
                 method: 'GET',
                 url: 'api/v1/defaultRace/getRace',
                 params: params
             }).then((response) => {
-                // this.game = response.data;
+                this.game = response.data;
+                axios({
+                    method: 'POST',
+                    url: 'api/v1/defaultRace/joinGame',
+                    data: {
+                        gameId: this.game.id
+                    }
+                });
             }).catch((response) => {
                 console.log(response);
             })

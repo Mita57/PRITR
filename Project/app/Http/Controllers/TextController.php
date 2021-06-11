@@ -29,11 +29,6 @@ class TextController extends Controller
         }
 
 
-        file_put_contents('C:\Users\57thr\Documents\GitHub\PRITR\Project\app\Http\Controllers\log.txt',
-            json_encode($topic).json_encode($lang).json_encode($len));
-
-
-
         if ($topic == 'any') {
             $text = Text::whereIn('length', $len)->whereIn('lang', $lang)->inRandomOrder()->first();
             if ($text) {

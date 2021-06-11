@@ -35,7 +35,7 @@ export default {
     props: ['game'],
 
     mounted() {
-        this.textLeft = this.game.text;
+        this.textLeft = this.game.text.text;
         this.allWords = this.textLeft.split(" ");
 
 
@@ -168,7 +168,7 @@ export default {
 
         nextWord() {
             this.goodText += this.allWords[this.currWordIndex] + ' ';
-            this.textLeft = this.game.text.slice(this.goodText.length);
+            this.textLeft = this.game.text.text.slice(this.goodText.length);
             this.charsEntered += this.currWord.length;
 
             this.currWordIndex++;

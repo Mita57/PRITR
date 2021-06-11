@@ -27,7 +27,7 @@ Route::prefix('/text')->group(function () {
 Route::prefix('/defaultRace')->group(function () {
     Route::get('/getRace', [GameController::class, 'index']);
     Route::post('/startGame', [GameController::class, 'startGame']);
-    Route::post('/joinGame', [GameController::class, 'join_game']);
+    Route::post('/joinGame', [GameController::class, 'join_game'])->middleware('auth:api');
     Route::get('/getGameMembers', [GameController::class, 'get_game_members']);
 
 });

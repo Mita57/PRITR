@@ -14,7 +14,7 @@ class ClassicResults extends Migration
     public function up()
     {
         Schema::create('classic_results', function (Blueprint $table) {
-            $table->id('game_id');
+            $table->integer('game_id');
             $table->string('user');
             $table->integer('place')->nullable();
             $table->integer('time')->nullable();

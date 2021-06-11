@@ -61,7 +61,6 @@ class GameController extends Controller {
 
         $newGame->text_id = $texts[array_rand($texts)];
 
-        file_put_contents('C:\Users\57thr\Documents\GitHub\PRITR\Project\app\Http\Controllers\log.txt', sizeof($texts));
 
         $newGame->started = false;
 
@@ -77,6 +76,7 @@ class GameController extends Controller {
 
     public function startGame(Request $request){
         $id = $request->id;
+
 
         $game = Game::where('id', '=', $id)->where('started', '=', false)->started = true;
         if(!$game) {
@@ -96,9 +96,12 @@ class GameController extends Controller {
 
         $game_res->game_id = $game_id;
 
+        file_put_contents('C:\Users\57thr\Documents\GitHub\PRITR\Project\app\Http\Controllers\log.txt', $game_res);
+
         $game_res->save();
 
-        return $this->get_game_members($game_id);
+
+        return $this->get_game_members($request);
     }
 
     /**
@@ -107,7 +110,7 @@ class GameController extends Controller {
      * @param int $id
      */
     public function get_game_members(Request $request){
-        $members = GameResult::with('user')::where('game_id', $request->input('gameId'))->get();
+        $members = GameResult::with('user')::where('game_id', $request->gameId)->get();
 
 
         return $members;
