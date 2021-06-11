@@ -27,8 +27,15 @@ class GameController extends Controller {
             $topic = trim($topic);
         }
 
-        $texts = Text::whereIn('length', $len)->whereIn('lang', $lang)->whereIn('topic', $topics)
-            ->pluck('id')->toArray();
+
+        $texts = null;
+
+        if ($topic == 'any') {
+            $texts = Text::whereIn('length', $len)->whereIn('lang', $lang)->pluck('id')->toArray();
+        } else {
+            $texts = Text::whereIn('length', $len)->whereIn('lang', $lang)->whereIn('topic', $topics)
+                ->pluck('id')->toArray();
+        }
 
 
         $game = Game::with('text')->whereIn('text_id', $texts)->where('started', '=', false)->first();

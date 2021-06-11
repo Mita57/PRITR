@@ -12,6 +12,6 @@ class Game extends Model
     public $timestamps = false;
 
     public function text() {
-        return $this->hasOne('App\Text', 'id');
+        return $this->hasOne('App\Text', 'id', 'text_id');
     }
 }
