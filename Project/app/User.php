@@ -34,7 +34,7 @@ class User extends Authenticatable {
     ];
 
     public function game_result() {
-        return $this->hasMany('App\GameResult');
+        return $this->hasMany('App\GameResult', 'user', 'id');
     }
 
 

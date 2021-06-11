@@ -110,7 +110,7 @@ class GameController extends Controller {
      * @param int $id
      */
     public function get_game_members(Request $request){
-        $members = GameResult::with('user')::where('game_id', $request->gameId)->get();
+        $members = GameResult::where('game_id', $request->gameId)->with('user')->get();
 
 
         return $members;

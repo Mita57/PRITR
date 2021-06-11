@@ -14,6 +14,11 @@ class GameResult extends Model
     public $timestamps = false;
 
     public function user() {
-        return $this->belongsTo('App\User', 'id', 'user');
+        return $this->hasOne('App\User', 'id', 'user');
     }
 }
+
+//
+//Event::whereHas('participants', function ($query) {
+//    return $query->where('IDUser', '=', 1);
+//})->get();
