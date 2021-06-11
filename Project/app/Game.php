@@ -9,4 +9,9 @@ class Game extends Model
 {
     use HasFactory;
     protected $table = 'classic_games';
+    public $timestamps = false;
+
+    public function text() {
+        return $this->hasOne('App\Text', 'id');
+    }
 }

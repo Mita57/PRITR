@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\GameResult;
 use Illuminate\Http\Request;
+use App\Text;
 
 use App\Game;
 
@@ -27,16 +28,18 @@ class GameController extends Controller {
         }
 
         $texts = Text::whereIn('length', $len)->whereIn('lang', $lang)->whereIn('topic', $topics)
-            ->lists('id')->toArray();
+            ->pluck('id')->toArray();
 
-        $game = Game::whereIn('game_id', $texts)->where('started', '=', false);
+
+        $game = Game::with('text')->whereIn('text_id', $texts)->where('started', '=', false)->first();
+
 
         if (!$game) {
             return $this->store($request, $texts);
         }
 
-        return $game;
 
+        return $game;
     }
 
 
@@ -45,15 +48,22 @@ class GameController extends Controller {
      *
      */
     public function store(Request $request, $texts) {
+
         $newGame = new Game();
 
-        $newGame->text = array_rand($texts);
 
-        $newGame->started = time();
+        $newGame->text_id = $texts[array_rand($texts)];
+
+        file_put_contents('C:\Users\57thr\Documents\GitHub\PRITR\Project\app\Http\Controllers\log.txt', sizeof($texts));
+
+        $newGame->started = false;
+
+        $newGame->game_time = time();
+
 
         $newGame->save();
 
-        return $newGame;
+        return $newGame::with('text')->get();
 
     }
 

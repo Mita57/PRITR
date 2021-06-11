@@ -141,15 +141,18 @@ export default {
 
             if (this.rivals.length >= 2 && !this.countDown) {
 
-                axios({
-                    method: 'POST',
-                    url: '/api/v1/defaultRace/startGame',
-                    data: {
-                        id: this.game.id
-                    }
-                });
 
                 this.countDown = true;
+
+                setTimeout(() => {
+                    axios({
+                        method: 'POST',
+                        url: '/api/v1/defaultRace/startGame',
+                        data: {
+                            id: this.game.id
+                        }
+                    });
+                }, 5000);
 
                 setTimeout(() => {
                     this.currWord = this.allWords[this.currWordIndex]

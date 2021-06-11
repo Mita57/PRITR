@@ -9,4 +9,8 @@ class Text extends Model
 {
     public $timestamps = false;
     use HasFactory;
+
+    public function game() {
+        return $this->belongsTo('App\Game');
+    }
 }

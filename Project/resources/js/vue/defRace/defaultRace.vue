@@ -26,7 +26,7 @@ export default {
                 url: 'api/v1/defaultRace/getRace',
                 params: params
             }).then((response) => {
-                this.game = response.data;
+                // this.game = response.data;
             }).catch((response) => {
                 console.log(response);
             })

@@ -107,8 +107,7 @@ const router = new VueRouter({
     routes: [
         {
             path: '',
-            name: 'Index',
-            component: practiceRace
+            redirect: '/defaultRace',
         },
         {
             path: '/texts',
@@ -130,7 +129,7 @@ const router = new VueRouter({
         },
         {
             path: '/defaultRace',
-            name:'DefaultRace',
+            name: 'DefaultRace',
             component: defaultRace
         }
     ]
