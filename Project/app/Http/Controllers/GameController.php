@@ -88,13 +88,23 @@ class GameController extends Controller {
     }
 
     public function join_game(Request $request) {
+
         $game_id = $request->gameId;
 
+        if (GameResult::where('game_id', '==', $game_id)->where('user', '=', auth()->user()->id)) {
+            return $this->get_game_members($request);
+        }
+
         $game_res = new GameResult();
+
 
         $game_res->user = auth()->user()->id;
 
         $game_res->game_id = $game_id;
+
+        $game_res->cpm = 0;
+
+        $game_res->
 
         file_put_contents('C:\Users\57thr\Documents\GitHub\PRITR\Project\app\Http\Controllers\log.txt', $game_res);
 
@@ -115,6 +125,24 @@ class GameController extends Controller {
 
         return $members;
 
+    }
+
+    public function post_text_data(Request $request) {
+        $game_id = $request->gameId;
+
+        $user_id = auth()->user()->id;
+
+        $cpm = $request->cpm;
+
+        $completion =$request->completion;
+
+        $game_res = GameResult::where('game_id', $game_id)->where('user_id', $user_id)->get();
+
+        $game_res->cpm = $cpm;
+
+        $game_res->$completion = $completion;
+
+        $game_res->save();
     }
 
 

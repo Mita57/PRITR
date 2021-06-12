@@ -1,6 +1,9 @@
 <template>
     <div id="race">
         <div id="rivalsInfo">
+            <div v-for="rival in this.rivals">
+                {{ rival.user.username }}: {{ rival.completion }}, CPM : {{ rival.cpm }}
+            </div>
         </div>
 
         <div id="textContainer">
@@ -20,9 +23,9 @@
                 <div>CPS: {{ Math.round(getCps()) }}</div>
                 <div>Acc: {{ Math.round(getAcc()) }}</div>
             </div>
-            <div id="bts">
-                <button @click="$emit('newText')">Новый текст</button>
+            <div id="bts" v-if="gameEnded">
                 <button @click="$emit('changeSettings')">Поменять настройки</button>
+                <button @click="$emit('newText')">Новая игра</button>
             </div>
         </div>
     </div>
@@ -41,7 +44,7 @@ export default {
 
         this.intervalThing = setInterval(() => {
             if (this.countDown && !this.raceStarted) {
-               this.secsTillGameStarts -= 0.1;
+                this.secsTillGameStarts -= 0.1;
             }
 
             if (this.raceStarted) {
@@ -50,7 +53,14 @@ export default {
                     this.secsEllapsed += 0.1;
                 }
             }
-        },)
+        }, 100)
+
+        this.update = setInterval(() => {
+            this.getGameMembers();
+
+            this.
+
+        }, 2000);
 
     },
 
@@ -74,6 +84,7 @@ export default {
             errors: 0,
             rivals: [],
             countDown: false,
+            update: null
         }
     },
     methods: {
@@ -113,6 +124,18 @@ export default {
 
         getAcc() {
             return 100 - ((this.errors / this.allCharsEntered) * 100);
+        },
+
+        sendTextData() {
+            axios({
+                method: 'POST',
+                url: '/api/v1/defaultRace/postTextData',
+                data: {
+                    gameId: this.game.id,
+                    cpm: this.getCpm(),
+                    completion: Math.round((this.charsEntered / this.game.text.text) * 100)
+                }
+            });
         },
 
         getStyle() {
@@ -185,5 +208,89 @@ export default {
 </script>
 
 <style scoped>
+#rivalsInfo {
+    width: 600px;
+    text-align: left;
+    background-color: #cdcdcd;
+    padding: 16px;
+    margin: 16px auto auto;
+    border-radius: 8px;
+}
 
+#textContainer {
+    width: 600px;
+    text-align: center;
+    background-color: #cdcdcd;
+    padding: 16px;
+    margin: 16px auto auto;
+    border-radius: 8px;
+}
+
+.placeholder {
+    position: relative;
+}
+
+.placeholder::after {
+    position: absolute;
+    left: 4px;
+    top: 12px;
+    font-family: "Noto Sans";
+    color: rgba(106, 101, 104, 0.6);
+    content: attr(data-placeholder);
+    pointer-events: none;
+    opacity: 0.6;
+}
+
+#textDiv {
+    background-color: #f6f6f6;
+    text-align: justify;
+    font-size: 14pt;
+    padding: 8px;
+}
+
+h1 {
+    margin-top: 0;
+}
+
+#goodTextSpan {
+    color: #00de2b;
+    border-right: black 2px;
+}
+
+#badTextSpan {
+    background-color: #6a272f;
+    color: #FFFFFF;
+}
+
+#textInput {
+    width: 594px;
+    height: 24px;
+    margin-top: 8px;
+    font-family: "Noto Sans";
+    font-size: 12pt;
+}
+
+#speeds {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+#bts {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin-top: 8px;
+}
+
+#bts button {
+    height: 40px;
+    width: 200px;
+    border: none;
+    background-color: #530000;
+    color: #FFFFFF;
+    font-size: 14pt;
+    transition: 0.3s;
+    cursor: pointer;
+}
 </style>
