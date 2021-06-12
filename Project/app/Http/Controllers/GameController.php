@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\GameResult;
+use App\User;
 use Illuminate\Http\Request;
 use App\Text;
 
@@ -159,23 +160,43 @@ class GameController extends Controller {
     }
 
 
-    /**
-     * Display the specified resource.
-     *
-     * @param int $id
-     */
-    public function show($id) {
+    public function game_final(Request $request) {
+        $user_id = auth()->user()->id;
 
+        $cpm = $request->cpm;
+
+        $race_time = $request->raceTime;
+
+        $game_id = $request->gameId;
+
+        $user = User::find($user_id);
+
+        $user->cpm_sum = $user->cpm + $cpm;
+
+        $user->classic_finished = $user->classic_finished++;
+
+        $user->last_10 = $this->get_last_10($user->last_10, $cpm);
+
+        $user->save();
+
+        DB::update(sprintf('UPDATE classic_results SET race_time = %s WHERE game_id = %f AND user_id = %g',
+            $race_time, $game_id, $user_id));
     }
 
+    private function get_last_10($last_10, $cpm) {
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id) {
+        $res_string = $last_10;
 
+        $results = explode(',', $last_10);
+
+        if(sizeof($results) == 10) {
+            $res_string = substr($res_string, strlen($res_string[0] + 1));
+            $res_string .= $cpm . ',';
+            return $res_string;
+        }
+
+        $res_string .= $cpm . ',';
+        return $res_string;
     }
+
 }

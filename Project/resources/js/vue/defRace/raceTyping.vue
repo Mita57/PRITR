@@ -65,7 +65,7 @@ export default {
 
         }, 2000);
 
-        window.onbeforeunload = function() {
+        window.onbeforeunload = function () {
             this.startGameAxios();
         }
 
@@ -215,6 +215,15 @@ export default {
             this.gameEnded = true;
             clearInterval(this.intervalThing);
             clearInterval(this.update);
+            axios({
+                method: 'POST',
+                url: 'api/v1/defaultRace/gameFinal',
+                data: {
+                    race_time: this.secsEllapsed,
+                    gameId: this.game.id,
+                    cpm: this.getCpm(),
+                }
+            });
         }
     }
 }

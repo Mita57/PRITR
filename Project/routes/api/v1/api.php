@@ -30,6 +30,7 @@ Route::prefix('/defaultRace')->group(function () {
     Route::post('/joinGame', [GameController::class, 'join_game'])->middleware('auth:api');
     Route::get('/getGameMembers', [GameController::class, 'get_game_members']);
     Route::post('/postTextData', [GameController::class, 'post_text_data'])->middleware('auth:api');
+    Route::post('/gameFinal', [GameController::class, 'game_final'])->middleware('auth:api');
 
 });
 
