@@ -8,12 +8,13 @@
                 <div class="menu-item">Ошибки</div>
             </router-link>
             <router-link to="/practiceRace">
-                <div class="menu-item">Тренировка</div>
+                <div class="menu-item" :style="[($router.currentRoute.name === 'DefaultRace') ? {backgroundColor: '#960000'}: {}]" >
+                    Тренировка</div>
             </router-link>
             <router-link to="/texts">
-            <div class="menu-item">Играть с друзьями</div>
+            <div class="menu-item" :style="[($router.currentRoute.name === 'Texts') ? {backgroundColor: '#960000'}: {}]">Играть с друзьями</div>
             </router-link>
-            <router-link to="/texts"><div class="menu-item">Предложить текст</div>
+            <router-link to="/texts"><div class="menu-item" :style="[($router.currentRoute.name === 'Texts') ? {backgroundColor: '#960000'}: {}]">Предложить текст</div>
             </router-link>
             <div class="menu-item" id="acc" v-if="loggedIn">
                 <img class="user_pic"
@@ -43,7 +44,6 @@
 </template>
 
 <script>
-
 export default {
     name: "app",
     data: () => {
