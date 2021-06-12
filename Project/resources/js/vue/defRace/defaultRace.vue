@@ -29,6 +29,7 @@ export default {
                 params: params
             }).then((response) => {
                 this.game = response.data;
+                axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.$store.state.token;
                 axios({
                     method: 'POST',
                     url: 'api/v1/defaultRace/joinGame',

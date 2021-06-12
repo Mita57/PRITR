@@ -1,1 +1,0 @@
-{"text":"The data to write. Can be either a string, an array or a stream resource.","length":"smol","source":"php","topic":"php","lang":"en","id":6}

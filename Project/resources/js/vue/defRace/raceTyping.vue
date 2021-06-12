@@ -40,6 +40,7 @@ export default {
     mounted() {
         this.textLeft = this.game.text.text;
         this.allWords = this.textLeft.split(" ");
+        this.getGameMembers();
 
 
         this.intervalThing = setInterval(() => {
@@ -58,11 +59,18 @@ export default {
         this.update = setInterval(() => {
             this.getGameMembers();
 
-            this.
+            if (this.raceStarted) {
+                this.sendTextData();
+            }
 
         }, 2000);
 
+        window.onbeforeunload = function() {
+            this.startGameAxios();
+        }
+
     },
+
 
     data: () => {
         return {
@@ -131,9 +139,9 @@ export default {
                 method: 'POST',
                 url: '/api/v1/defaultRace/postTextData',
                 data: {
-                    gameId: this.game.id,
-                    cpm: this.getCpm(),
-                    completion: Math.round((this.charsEntered / this.game.text.text) * 100)
+                    gameId: Math.round(this.game.id),
+                    cpm: Math.round(this.getCpm()),
+                    completion: Math.round((this.charsEntered / this.game.text.text.length) * 100)
                 }
             });
         },
@@ -147,6 +155,16 @@ export default {
             return {
                 backgroundColor: 'white'
             };
+        },
+
+        startGameAxios() {
+            axios({
+                method: 'POST',
+                url: '/api/v1/defaultRace/startGame',
+                data: {
+                    id: this.game.id
+                }
+            });
         },
 
         getGameMembers() {
@@ -168,13 +186,7 @@ export default {
                 this.countDown = true;
 
                 setTimeout(() => {
-                    axios({
-                        method: 'POST',
-                        url: '/api/v1/defaultRace/startGame',
-                        data: {
-                            id: this.game.id
-                        }
-                    });
+                    this.startGameAxios();
                 }, 5000);
 
                 setTimeout(() => {
@@ -202,6 +214,7 @@ export default {
         gameOver() {
             this.gameEnded = true;
             clearInterval(this.intervalThing);
+            clearInterval(this.update);
         }
     }
 }

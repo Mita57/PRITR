@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Text;
 
 use App\Game;
+use Illuminate\Support\Facades\DB;
 
 class GameController extends Controller {
 
@@ -41,6 +42,7 @@ class GameController extends Controller {
         $game = Game::with('text')->whereIn('text_id', $texts)->where('started', '=', false)->first();
 
 
+
         if (!$game) {
             return $this->store($request, $texts);
         }
@@ -69,7 +71,7 @@ class GameController extends Controller {
 
         $newGame->save();
 
-        return $newGame::with('text')->get();
+        return $newGame::with('text')->get()->first();
 
     }
 
@@ -78,10 +80,15 @@ class GameController extends Controller {
         $id = $request->id;
 
 
-        $game = Game::where('id', '=', $id)->where('started', '=', false)->started = true;
+        $game = Game::where('id', '=', $id)->where('started', '=', false)->first();
+
+
         if(!$game) {
             return 0;
         }
+
+        $game->started = true;
+
         $game->save();
 
         return $game;
@@ -91,22 +98,21 @@ class GameController extends Controller {
 
         $game_id = $request->gameId;
 
-        if (GameResult::where('game_id', '==', $game_id)->where('user', '=', auth()->user()->id)) {
+
+        if (sizeof(GameResult::where(['game_id' => $game_id, 'user_id' => auth()->user()->id])->get()) != 0) {
             return $this->get_game_members($request);
         }
+
 
         $game_res = new GameResult();
 
 
-        $game_res->user = auth()->user()->id;
+        $game_res->user_id = auth()->user()->id;
 
         $game_res->game_id = $game_id;
 
         $game_res->cpm = 0;
 
-        $game_res->
-
-        file_put_contents('C:\Users\57thr\Documents\GitHub\PRITR\Project\app\Http\Controllers\log.txt', $game_res);
 
         $game_res->save();
 
@@ -120,7 +126,12 @@ class GameController extends Controller {
      * @param int $id
      */
     public function get_game_members(Request $request){
+
         $members = GameResult::where('game_id', $request->gameId)->with('user')->get();
+
+//        if (sizeof($members) >=2) {
+//            $this->startGame($request);
+//        }
 
 
         return $members;
@@ -128,21 +139,23 @@ class GameController extends Controller {
     }
 
     public function post_text_data(Request $request) {
-        $game_id = $request->gameId;
+        $game_id = round($request->gameId);
 
-        $user_id = auth()->user()->id;
+        $user_id = round(auth()->user()->id);
 
-        $cpm = $request->cpm;
+        $cpm = round($request->cpm);
 
-        $completion =$request->completion;
+        $completion = round($request->completion);
 
-        $game_res = GameResult::where('game_id', $game_id)->where('user_id', $user_id)->get();
 
-        $game_res->cpm = $cpm;
 
-        $game_res->$completion = $completion;
+        file_put_contents('C:\Users\57thr\Documents\GitHub\PRITR\Project\app\Http\Controllers\log.txt',
+            sprintf('UPDATE classic_results SET cpm = %d , completion = %s WHERE game_id = %f AND user_id = %g',
+                $cpm, $completion, $game_id, $user_id), FILE_APPEND);
 
-        $game_res->save();
+        DB::update(sprintf('UPDATE classic_results SET cpm = %d , completion = %s WHERE game_id = %f AND user_id = %g',
+        $cpm, $completion, $game_id, $user_id));
+
     }
 
 

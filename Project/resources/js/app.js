@@ -130,7 +130,10 @@ const router = new VueRouter({
         {
             path: '/defaultRace',
             name: 'DefaultRace',
-            component: defaultRace
+            component: defaultRace,
+            meta: {
+                requiresAuth: true
+            }
         }
     ]
 })
@@ -144,8 +147,15 @@ router.beforeEach((to, from, next) => {
         } else {
             next();
         }
-    } else {
-        next();
+    }
+    if (to.matched.some(record => record.meta.requiresAuth)) {
+        if (!store.getters.loggedIn) {
+            next({
+                path: '/practiceRace',
+            })
+        } else {
+            next();
+        }
     }
 })
 

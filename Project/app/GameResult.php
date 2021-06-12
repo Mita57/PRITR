@@ -14,7 +14,7 @@ class GameResult extends Model
     public $timestamps = false;
 
     public function user() {
-        return $this->hasOne('App\User', 'id', 'user');
+        return $this->hasOne('App\User', 'id', 'user_id');
     }
 }
 

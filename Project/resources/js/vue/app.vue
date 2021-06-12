@@ -1,7 +1,7 @@
 <template>
     <div id="app">
         <div id="menu">
-            <router-link to="/defaultRace">
+            <router-link to="/defaultRace" v-if="loggedIn">
                 <div class="menu-item">Обычная гонка</div>
             </router-link>
             <router-link to="/texts">
