@@ -113,6 +113,8 @@ class GameController extends Controller {
 
         $game_res->cpm = 0;
 
+        $game_res->place = 0;
+
 
         $game_res->save();
 
@@ -161,26 +163,30 @@ class GameController extends Controller {
     public function game_final(Request $request) {
         $user_id = auth()->user()->id;
 
-        $cpm = $request->cpm;
-
-        $race_time = $request->raceTime;
-
         $game_id = $request->gameId;
+
+        $cpm = round($request->cpm);
+
+        $race_time = round($request->raceTime);
+
+        $place = round(GameResult::where('game_id', '=', $game_id)->max('place') + 1);
 
         $user = User::find($user_id);
 
-        $user->cpm_sum = $user->cpm + $cpm;
+        $user->cpm_sum = round($user->cpm + $cpm);
 
-        $user->classic_finished = $user->classic_finished++;
+        $user->classic_finished = round($user->classic_finished++);
 
         $user->last_10 = $this->get_last_10($user->last_10, $cpm);
 
-        $user->cpm_last_10 = $this->get_cpm_last_10($user->last_10);
+        $user->cpm_last_10 = round($this->get_cpm_last_10($user->last_10));
 
         $user->save();
 
-        DB::update(sprintf('UPDATE classic_results SET race_time = %s WHERE game_id = %f AND user_id = %g',
-            $race_time, $game_id, $user_id));
+        DB::update(sprintf('UPDATE classic_results SET race_time = %s, place = %k WHERE game_id = %f AND user_id = %g',
+            $race_time, $place, $game_id, $user_id));
+
+        return $user;
     }
 
     private function get_last_10($last_10, $cpm) {

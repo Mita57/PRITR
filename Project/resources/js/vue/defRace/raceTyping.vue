@@ -14,7 +14,7 @@
             </div>
             <div class="placeholder" :data-placeholder="currWord">
                 <input type="text" @input="textThing()" v-model="inputText" id="textInput"
-                       :style="getStyle()" v-if="!gameEnded"
+                       :style="getStyle()" v-if="!gameEnded" autocomplete="off"
                        :placeholder="raceStarted ? '' : 'Пиши сюда текст сверху'" :disabled="!raceStarted">
             </div>
             <div id="speeds" v-if="raceStarted">
@@ -59,7 +59,7 @@ export default {
         this.update = setInterval(() => {
             this.getGameMembers();
 
-            if (this.raceStarted) {
+            if (this.raceStarted && !this.gameEnded) {
                 this.sendTextData();
             }
 
@@ -67,6 +67,8 @@ export default {
 
         window.onbeforeunload = function () {
             this.startGameAxios();
+            clearInterval(this.intervalThing);
+            clearInterval(this.update);
         }
 
     },
@@ -223,6 +225,8 @@ export default {
                     gameId: this.game.id,
                     cpm: this.getCpm(),
                 }
+            }).then((response) => {
+                this.$store.commit('setUser', response.data);
             });
         }
     }

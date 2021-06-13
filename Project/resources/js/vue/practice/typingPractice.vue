@@ -7,7 +7,7 @@
         </div>
         <div class="placeholder" :data-placeholder="currWord">
             <input type="text" @input="textThing()" v-model="inputText" id="textInput"
-                   :style="getStyle()" v-if="!gameEnded"
+                   :style="getStyle()" v-if="!gameEnded" autocomplete="off"
                    :placeholder="raceStarted ? '' : 'Пиши сюда текст сверху'" :disabled="!raceStarted">
         </div>
         <div id="speeds" v-if="raceStarted">

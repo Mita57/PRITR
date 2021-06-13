@@ -17,7 +17,7 @@ class ClassicResults extends Migration
             $table->integer('game_id');
             $table->string('user');
             $table->integer('place')->nullable();
-            $table->integer('time')->nullable();
+            $table->integer('race_time')->nullable();
             $table->integer('completion')->nullable();
             $table->integer('cpm')->nullable();
             $table->foreign('game_id')->references('id')->on('classic_games');
