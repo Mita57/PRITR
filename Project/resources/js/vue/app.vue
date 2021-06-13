@@ -2,27 +2,30 @@
     <div id="app">
         <div id="menu">
             <router-link to="/defaultRace" v-if="loggedIn">
-                <div class="menu-item">Обычная гонка</div>
+                <div class="menu-item" :style="[($router.currentRoute.name === 'DefaultRace') ? {backgroundColor: '#960000'}: {}]">Обычная гонка</div>
             </router-link>
             <router-link to="/texts">
-                <div class="menu-item">Ошибки</div>
+                <div class="menu-item" :style="[($router.currentRoute.name === 'Mistakes') ? {backgroundColor: '#960000'}: {}]">Ошибки</div>
             </router-link>
             <router-link to="/practiceRace">
-                <div class="menu-item" :style="[($router.currentRoute.name === 'DefaultRace') ? {backgroundColor: '#960000'}: {}]" >
+                <div class="menu-item" :style="[($router.currentRoute.name === 'PracticeRace') ? {backgroundColor: '#960000'}: {}]" >
                     Тренировка</div>
             </router-link>
             <router-link to="/texts">
-            <div class="menu-item" :style="[($router.currentRoute.name === 'Texts') ? {backgroundColor: '#960000'}: {}]">Играть с друзьями</div>
+            <div class="menu-item" :style="[($router.currentRoute.name === 'WithFriends') ? {backgroundColor: '#960000'}: {}]">Играть с друзьями</div>
             </router-link>
             <router-link to="/texts"><div class="menu-item" :style="[($router.currentRoute.name === 'Texts') ? {backgroundColor: '#960000'}: {}]">Предложить текст</div>
             </router-link>
             <div class="menu-item" id="acc" v-if="loggedIn">
                 <img class="user_pic"
                      src="https://sun9-10.userapi.com/s/v1/ig2/LS5dHm4PYRXUVKrOAaHT_tqVbPuykRwE8UDSQhez_Ek4c3PCwvyZAG_ZSMp28KSJz962LJVfb5On1uHIWLdSB-5-.jpg?size=200x0&quality=96&crop=116,0,692,692&ava=1">
-                <span style="display: inline">{{ username }}</span>
+                <span style="display: inline">{{ $store.getters.getUser.username }}</span>
             </div>
             <div class="menu-item" id="logOut" v-if="loggedIn" @click="logOut">
                 <span>Выйти</span>
+            </div>
+            <div class="menu-item" v-if="loggedIn">
+                CPM: <span style="display: inline">{{ $store.getters.getUser.cpm_last_10 }}</span>
             </div>
             <div class="menu-item" id="logIn" v-if="!loggedIn" @click="loginVisible = !loginVisible">
                 <span>Войти</span>

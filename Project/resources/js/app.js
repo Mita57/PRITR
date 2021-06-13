@@ -16,7 +16,7 @@ Vue.use(Vuex);
 const store = new Vuex.Store({
     state: {
         token: localStorage.getItem('access_token') || null,
-        userName: localStorage.getItem('username') || null
+        user: JSON.parse(localStorage.getItem('user')) || null,
     },
 
     getters: {
@@ -24,8 +24,8 @@ const store = new Vuex.Store({
             return state.token !== null;
         },
 
-        getUsername(state) {
-            return state.userName;
+        getUser(state) {
+            return state.user;
         }
     },
 
@@ -36,8 +36,8 @@ const store = new Vuex.Store({
         destroyToken(state) {
             state.token = null;
         },
-        setUsername(state, name) {
-            state.userName = name;
+        setUser(state, user) {
+            state.user = user;
         }
     },
 
@@ -85,12 +85,12 @@ const store = new Vuex.Store({
                 })
                     .then(response => {
                         const token = response.data.access_token;
-                        const username = response.data.nick;
+                        const user = response.data.user;
 
                         localStorage.setItem('access_token', token);
-                        localStorage.setItem('username', username);
+                        localStorage.setItem('user', JSON.stringify(user));
                         context.commit('retrieveToken', token);
-                        context.commit('setUsername', username);
+                        context.commit('setUser', user);
                         resolve(response);
                     })
                     .catch(error => {
@@ -139,23 +139,24 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-    if (to.matched.some(record => record.meta.requiresVisitor)) {
-        if (store.getters.loggedIn) {
-            next({
-                path: '/practiceRace',
-            })
-        } else {
-            next();
-        }
-    }
     if (to.matched.some(record => record.meta.requiresAuth)) {
         if (!store.getters.loggedIn) {
             next({
-                path: '/practiceRace',
+                url: '/register',
             })
         } else {
-            next();
+            next()
         }
+    } else if (to.matched.some(record => record.meta.requiresVisitor)) {
+        if (store.getters.loggedIn) {
+            next({
+                url: '/defaultRace',
+            })
+        } else {
+            next()
+        }
+    } else {
+        next()
     }
 })
 

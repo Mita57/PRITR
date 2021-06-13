@@ -43,7 +43,6 @@ class GameController extends Controller {
         $game = Game::with('text')->whereIn('text_id', $texts)->where('started', '=', false)->first();
 
 
-
         if (!$game) {
             return $this->store($request, $texts);
         }
@@ -77,14 +76,14 @@ class GameController extends Controller {
     }
 
 
-    public function startGame(Request $request){
+    public function startGame(Request $request) {
         $id = $request->id;
 
 
         $game = Game::where('id', '=', $id)->where('started', '=', false)->first();
 
 
-        if(!$game) {
+        if (!$game) {
             return 0;
         }
 
@@ -126,13 +125,13 @@ class GameController extends Controller {
      *
      * @param int $id
      */
-    public function get_game_members(Request $request){
+    public function get_game_members(Request $request) {
 
         $members = GameResult::where('game_id', $request->gameId)->with('user')->get();
 
-//        if (sizeof($members) >=2) {
-//            $this->startGame($request);
-//        }
+        //        if (sizeof($members) >=2) {
+        //            $this->startGame($request);
+        //        }
 
 
         return $members;
@@ -149,13 +148,12 @@ class GameController extends Controller {
         $completion = round($request->completion);
 
 
-
         file_put_contents('C:\Users\57thr\Documents\GitHub\PRITR\Project\app\Http\Controllers\log.txt',
             sprintf('UPDATE classic_results SET cpm = %d , completion = %s WHERE game_id = %f AND user_id = %g',
                 $cpm, $completion, $game_id, $user_id), FILE_APPEND);
 
         DB::update(sprintf('UPDATE classic_results SET cpm = %d , completion = %s WHERE game_id = %f AND user_id = %g',
-        $cpm, $completion, $game_id, $user_id));
+            $cpm, $completion, $game_id, $user_id));
 
     }
 
@@ -177,6 +175,8 @@ class GameController extends Controller {
 
         $user->last_10 = $this->get_last_10($user->last_10, $cpm);
 
+        $user->cpm_last_10 = $this->get_cpm_last_10($user->last_10);
+
         $user->save();
 
         DB::update(sprintf('UPDATE classic_results SET race_time = %s WHERE game_id = %f AND user_id = %g',
@@ -189,7 +189,7 @@ class GameController extends Controller {
 
         $results = explode(',', $last_10);
 
-        if(sizeof($results) == 10) {
+        if (sizeof($results) == 10) {
             $res_string = substr($res_string, strlen($res_string[0] + 1));
             $res_string .= $cpm . ',';
             return $res_string;
@@ -197,6 +197,18 @@ class GameController extends Controller {
 
         $res_string .= $cpm . ',';
         return $res_string;
+    }
+
+    private function get_cpm_last_10($last_10) {
+        $results = explode(',', $last_10);
+
+        $sum = 0;
+
+        foreach ($results as $res) {
+            $sum += (int)$res;
+        }
+
+        return $sum / sizeof($results);
     }
 
 }

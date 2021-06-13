@@ -24,6 +24,7 @@ class CreateUsersTable extends Migration
             $table->integer('cpm_sum')->nullable();
             $table->integer('finished_games_overall')->nullable();
             $table->integer('battle_royale_finished')->nullable();
+            $table->integer('cpm_last_10')->nullable();
             $table->integer('battle_royale_won')->nullable();
             $table->integer('classic_finished')->nullable();
             $table->integer('classic_won')->nullable();

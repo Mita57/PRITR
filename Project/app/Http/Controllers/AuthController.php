@@ -26,12 +26,11 @@ class AuthController extends Controller
                 ]
             ]);
 
-            $nick = User::where('email', '=', $request->email)->get()[0]->username;
+            $user = User::where('email', '=', $request->email)->get()[0];
 
             $resp = json_decode($response->getBody()->getContents(), true);
 
-            $resp['nick'] = $nick;
-
+            $resp['user'] = $user;
 
             return json_encode($resp);
 
@@ -67,7 +66,8 @@ class AuthController extends Controller
             'classic_finished'=>0,
             'classic_won'=>0,
             'arena_got_to_room1'=>0,
-            'arena_played'=>0
+            'arena_played'=>0,
+            'cpm_last_10'=>0
         ]);
     }
 
