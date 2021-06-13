@@ -171,6 +171,10 @@ class GameController extends Controller {
 
         $place = round(GameResult::where('game_id', '=', $game_id)->max('place') + 1);
 
+        if ($place == 1) {
+            $user->classic_won = round($user->classic_won + 1);
+        }
+
         $user = User::find($user_id);
 
         $user->cpm_sum = round($user->cpm + $cpm);

@@ -16,10 +16,16 @@
             </router-link>
             <router-link to="/texts"><div class="menu-item" :style="[($router.currentRoute.name === 'Texts') ? {backgroundColor: '#960000'}: {}]">Предложить текст</div>
             </router-link>
-            <div class="menu-item" id="acc" v-if="loggedIn">
+            <div class="menu-item" id="acc" v-if="loggedIn" @mouseover="showStats = true" @mouseleave="showStats = false">
                 <img class="user_pic"
                      src="https://sun9-10.userapi.com/s/v1/ig2/LS5dHm4PYRXUVKrOAaHT_tqVbPuykRwE8UDSQhez_Ek4c3PCwvyZAG_ZSMp28KSJz962LJVfb5On1uHIWLdSB-5-.jpg?size=200x0&quality=96&crop=116,0,692,692&ava=1">
                 <span style="display: inline">{{ $store.getters.getUser.username }}</span>
+                <div id="statsOverlay" v-if="showStats">
+                    <p>CPM 10 последних гонок: {{$store.getters.getUser.cpm_last_10}}</p>
+                    <p>CPM за все время: {{Math.round($store.getters.getUser.cpm_sum / $store.getters.getUser.classic_finished)}}</p>
+                    <p>Гонок: {{$store.getters.getUser.classic_finished}}</p>
+                    <p>Гонок выиграно: {{$store.getters.getUser.classic_won}}</p>
+                </div>
             </div>
             <div class="menu-item" id="logOut" v-if="loggedIn" @click="logOut">
                 <span>Выйти</span>
@@ -55,6 +61,7 @@ export default {
             password: '',
             loginVisible: false,
             loginBtnDisabled: true,
+            showStats: false
         }
     },
 
@@ -140,6 +147,24 @@ a {
 
 }
 
+#statsOverlay {
+    position: absolute;
+    right: 130px;
+    background-color: #FFFFFF;
+    height: 130px;
+    color: black;
+    cursor: default;
+    padding: 16px;
+    text-align: left;
+    width: 300px;
+    top: 48px;
+
+}
+
+#statsOverlay p:first-of-type {
+    margin: 0;
+}
+
 #logInOverlay input {
     width: 300px;
     height: 24px;
@@ -164,6 +189,10 @@ a {
     margin-left: auto;
     color: #ffffff;
     display: inline-flex;
+}
+
+#acc {
+    cursor: default;
 }
 
 
