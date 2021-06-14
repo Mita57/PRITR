@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class ClassicGames extends Migration
+class Rooms extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,12 @@ class ClassicGames extends Migration
      */
     public function up()
     {
-        Schema::create('classic_games', function (Blueprint $table) {
+        Schema::create('rooms', function (Blueprint $table) {
             $table->id('id');
-            $table->integer('text_id');
-            $table->boolean('started');
-            $table->boolean('room_id')->nullable();
-            $table->foreign('text_id')->references('id')->on('texts');
+            $table->integer('creator_id');
+            $table->boolean('curr_game_id');
+            $table->foreign('creator_id')->references('id')->on('users');
+            $table->foreign('curr_game_id')->references('id')->on('classic_games');
         });
     }
 
