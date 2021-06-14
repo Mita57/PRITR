@@ -11,8 +11,8 @@
                 <div class="menu-item" :style="[($router.currentRoute.name === 'PracticeRace') ? {backgroundColor: '#960000'}: {}]" >
                     Тренировка</div>
             </router-link>
-            <router-link to="/texts">
-            <div class="menu-item" :style="[($router.currentRoute.name === 'WithFriends') ? {backgroundColor: '#960000'}: {}]">Играть с друзьями</div>
+            <router-link to="/gameRoom">
+            <div class="menu-item" :style="[($router.currentRoute.name === 'RoomTyping') ? {backgroundColor: '#960000'}: {}]">Играть с друзьями</div>
             </router-link>
             <router-link to="/texts"><div class="menu-item" :style="[($router.currentRoute.name === 'Texts') ? {backgroundColor: '#960000'}: {}]">Предложить текст</div>
             </router-link>

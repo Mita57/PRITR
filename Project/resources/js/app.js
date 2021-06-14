@@ -9,6 +9,7 @@ import VueRouter from "vue-router";
 import Vuex from 'vuex';
 import axios from 'axios';
 import defaultRace from "./vue/defRace/defaultRace";
+import gameRoom from "./vue/game_room/gameRoom";
 
 Vue.use(VueRouter);
 Vue.use(Vuex);
@@ -131,6 +132,14 @@ const router = new VueRouter({
             path: '/defaultRace',
             name: 'DefaultRace',
             component: defaultRace,
+            meta: {
+                requiresAuth: true
+            }
+        },
+        {
+            path: '/gameRoom',
+            component: gameRoom,
+            name: 'gameRoom',
             meta: {
                 requiresAuth: true
             }

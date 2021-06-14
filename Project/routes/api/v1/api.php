@@ -34,6 +34,13 @@ Route::prefix('/defaultRace')->group(function () {
 
 });
 
+Route::prefix('/room')->group(function () {
+    Route::get('/getRoom', [GameController::class, 'index']);
+    Route::post('/createRoom', [GameController::class, 'createRoom']);
+    Route::get('/getRoomStatus', [GameController::class, 'getRoomStatus']);
+
+});
+
 Route::middleware('auth:api')->group(function () {
     Route::post('/logout', 'AuthController@logout');
     Route::get('/user', function (Request $request) {
