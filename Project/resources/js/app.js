@@ -66,11 +66,12 @@ const store = new Vuex.Store({
                     axios.post('/api/v1/logout')
                         .then(response => {
                             localStorage.removeItem('access_token');
+                            localStorage.removeItem('user');
                             context.commit('destroyToken');
                             resolve(response);
                         })
                         .catch(error => {
-                            localStorage.removeItem('access_token');
+                            localStorage.removeItem('user');
                             context.commit('destroyToken');
                             reject(error);
                         })
