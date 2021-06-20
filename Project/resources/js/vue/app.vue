@@ -1,6 +1,11 @@
 <template>
     <div id="app">
         <div id="menu">
+            <div class="menu-item" id="cock">
+                <img id="moor"
+                     src="moor.png">
+                <h2 style="display: inline" id="title">Fast Boi Moor</h2>
+            </div>
             <router-link to="/defaultRace" v-if="loggedIn">
                 <div class="menu-item" :style="[($router.currentRoute.name === 'DefaultRace') ? {backgroundColor: '#960000'}: {}]">Обычная гонка</div>
             </router-link>
@@ -9,7 +14,7 @@
                     Тренировка</div>
             </router-link>
             <router-link to="/gameRoom">
-            <div class="menu-item" :style="[($router.currentRoute.name === 'RoomTyping') ? {backgroundColor: '#960000'}: {}]">Играть с друзьями</div>
+            <div class="menu-item" :style="[($router.currentRoute.name === 'gameRoom') ? {backgroundColor: '#960000'}: {}]">Играть с друзьями</div>
             </router-link>
             <router-link to="/texts"><div class="menu-item" :style="[($router.currentRoute.name === 'Texts') ? {backgroundColor: '#960000'}: {}]">Предложить текст</div>
             </router-link>
@@ -127,6 +132,13 @@ export default {
     box-shadow: gray 0 5px 10px;
 }
 
+#moor {
+    height: 40px;
+    margin-right: 12px;
+    margin-top: -8px;
+    border-radius: 50%
+}
+
 a {
     text-decoration: none;
     color: #ffffff;
@@ -142,6 +154,10 @@ a {
     width: 350px;
     top: 48px;
 
+}
+
+#title {
+    margin-top: -6px;
 }
 
 #statsOverlay {
@@ -225,6 +241,10 @@ h2 {
     background-color: #915656;
     color: #c8a4a4;
     cursor: default;
+}
+
+#cock {
+    display: flex;
 }
 
 </style>

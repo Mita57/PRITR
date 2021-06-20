@@ -66,6 +66,7 @@ export default {
                 if (!response.data) {
                     return;
                 }
+                this.currGame = null;
                 this.currGameId = response.data.id;
                 this.connectToGame();
             })

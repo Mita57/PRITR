@@ -75,7 +75,6 @@ class GameController extends Controller {
 
         $newGame->game_time = time();
 
-        file_put_contents('C:\Users\57thr\Documents\GitHub\PRITR\Project\app\Http\Controllers\log.txt', $room_id, FILE_APPEND);
 
         if ($room_id != null) {
             $newGame->room_id = $room_id;
@@ -180,7 +179,7 @@ class GameController extends Controller {
 
         $race_time = round($request->raceTime);
 
-        $place = round(GameResult::where('game_id', '=', $game_id)->max('place') + 1);
+        $place = round(GameResult::where('game_id', '=', $game_id)->max('place') + 1) || 1;
 
         if ($place == 1) {
             $user->classic_won = round($user->classic_won + 1);

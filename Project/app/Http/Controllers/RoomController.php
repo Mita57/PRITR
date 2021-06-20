@@ -67,7 +67,10 @@ class RoomController extends Controller {
         }
 
         $gc = new GameController();
+
         $newGame = $gc->store($request, $texts, $room_id);
+
+        file_put_contents('C:\Users\57thr\Documents\GitHub\PRITR\Project\app\Http\Controllers\log.txt', $newGame . '\n', FILE_APPEND);
 
         $room = Room::find($room_id);
 
@@ -83,7 +86,6 @@ class RoomController extends Controller {
         $client_game = $request->input('clientGame');
         $room_id = $request->input('roomId');
 
-        file_put_contents('C:\Users\57thr\Documents\GitHub\PRITR\Project\app\Http\Controllers\log.txt', $room_id, FILE_APPEND);
 
         $curr_game = Room::find($room_id)->curr_game_id;
 

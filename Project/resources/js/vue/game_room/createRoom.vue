@@ -86,6 +86,7 @@ export default {
     methods: {
 
         getGame() {
+            this.currGame = null;
             axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.$store.state.token;
             axios({
                 method: 'POST',
