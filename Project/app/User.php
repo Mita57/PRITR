@@ -37,5 +37,9 @@ class User extends Authenticatable {
         return $this->hasMany('App\GameResult', 'user', 'id');
     }
 
+    public function game_room() {
+        return $this->belongsTo('App\RoomMembers', 'user_id', 'id');
+    }
+
 
 }

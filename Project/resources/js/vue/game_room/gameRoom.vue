@@ -1,19 +1,71 @@
 <template>
     <div id="container">
-        <div id="create" class="bigBtn">
+        <div id="create" class="bigBtn" @click="createRoom" v-if="firstPage">
             <button>Создать комнату</button>
         </div>
-        <div id="join" class="bigBtn">
-            Войти в комнату 
-            <p><input type="text" id="roomIDInput" autocomplete="off" placeholder="ID комнаты / URL"> </p>
-            <button>Войти</button>
+        <div id="join" class="bigBtn" v-if="firstPage">
+            Войти в комнату
+            <p><input type="text" id="roomIDInput" v-model="roomId" autocomplete="off" placeholder="ID комнаты"></p>
+            <button :disabled="!roomId" @click="getRoom">Войти</button>
         </div>
+
+        <create-room v-if="hostingGame" :roomId="roomId" />
+        <room-lobby v-if="connectedToGame" :room-id="roomId" />
     </div>
 </template>
 
 <script>
+import CreateRoom from "./createRoom";
+import RoomLobby from "./roomLobby";
+import axios from "axios";
 export default {
-    name: "gameRoom"
+    name: "gameRoom",
+    components: {RoomLobby, CreateRoom},
+    data: () => {
+        return {
+            roomId: null,
+            connectedToGame: false,
+            hostingGame: false,
+            firstPage: true
+        }
+
+    },
+
+    methods: {
+        createRoom() {
+            axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.$store.state.token;
+            axios({
+                method: 'POST',
+                url: 'api/v1/room/createRoom'
+            }).then((response) => {
+                this.hostingGame = true;
+                this.firstPage = false;
+                this.roomId = response.data.id;
+                axios({
+                    method: 'GET',
+                    url: 'api/v1/room/getRoom',
+                    params: {
+                        room: this.roomId
+                    }
+                });
+            });
+        },
+
+        getRoom() {
+            axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.$store.state.token;
+            axios({
+                method: 'GET',
+                url: 'api/v1/room/getRoom',
+                params: {
+                    room: this.roomId
+                }
+            }).then((response) => {
+                this.firstPage = false;
+                this.connectedToGame = true;
+
+            })
+        }
+    }
 }
 </script>
 

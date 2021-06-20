@@ -1,6 +1,6 @@
 <template>
     <race-text-selector v-if="game == null" v-on:findGame="findGame"></race-text-selector>
-    <race-typing v-else :game=this.game></race-typing>
+    <race-typing v-else :game=this.game bts_enabled="true"></race-typing>
 </template>
 
 <script>

@@ -17,7 +17,7 @@ class ClassicGames extends Migration
             $table->id('id');
             $table->integer('text_id');
             $table->boolean('started');
-            $table->boolean('room_id')->nullable();
+            $table->integer('room_id')->nullable();
             $table->foreign('text_id')->references('id')->on('texts');
         });
     }
