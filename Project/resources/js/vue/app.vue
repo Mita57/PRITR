@@ -4,9 +4,6 @@
             <router-link to="/defaultRace" v-if="loggedIn">
                 <div class="menu-item" :style="[($router.currentRoute.name === 'DefaultRace') ? {backgroundColor: '#960000'}: {}]">Обычная гонка</div>
             </router-link>
-            <router-link to="/texts">
-                <div class="menu-item" :style="[($router.currentRoute.name === 'Mistakes') ? {backgroundColor: '#960000'}: {}]">Ошибки</div>
-            </router-link>
             <router-link to="/practiceRace">
                 <div class="menu-item" :style="[($router.currentRoute.name === 'PracticeRace') ? {backgroundColor: '#960000'}: {}]" >
                     Тренировка</div>

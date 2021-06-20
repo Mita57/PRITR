@@ -23,7 +23,7 @@
                 <div>CPS: {{ Math.round(getCps()) }}</div>
                 <div>Acc: {{ Math.round(getAcc()) }}</div>
             </div>
-            <div id="bts" v-if="gameEnded">
+            <div id="bts" v-if="gameEnded && bts_enabled">
                 <button @click="$emit('changeSettings')">Поменять настройки</button>
                 <button @click="$emit('newText')">Новая игра</button>
             </div>
@@ -35,7 +35,7 @@
 export default {
     name: "raceTyping",
 
-    props: ['game'],
+    props: ['game', 'bts_enabled'],
 
     mounted() {
         this.textLeft = this.game.text.text;
@@ -73,6 +73,9 @@ export default {
 
     },
 
+    destroyed() {
+        clearInterval(this.update);
+    },
 
     data: () => {
         return {
@@ -216,7 +219,6 @@ export default {
         gameOver() {
             this.gameEnded = true;
             clearInterval(this.intervalThing);
-            clearInterval(this.update);
             axios({
                 method: 'POST',
                 url: 'api/v1/defaultRace/gameFinal',

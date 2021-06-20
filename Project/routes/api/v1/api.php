@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TextController;
 use App\Http\Controllers\GameController;
+use App\Http\Controllers\RoomController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,6 +27,7 @@ Route::prefix('/text')->group(function () {
 
 Route::prefix('/defaultRace')->group(function () {
     Route::get('/getRace', [GameController::class, 'index']);
+    Route::get('/getRaceByID', [GameController::class, 'indexById']);
     Route::post('/startGame', [GameController::class, 'startGame']);
     Route::post('/joinGame', [GameController::class, 'join_game'])->middleware('auth:api');
     Route::get('/getGameMembers', [GameController::class, 'get_game_members']);
@@ -35,9 +37,11 @@ Route::prefix('/defaultRace')->group(function () {
 });
 
 Route::prefix('/room')->group(function () {
-    Route::get('/getRoom', [GameController::class, 'index']);
-    Route::post('/createRoom', [GameController::class, 'createRoom']);
-    Route::get('/getRoomStatus', [GameController::class, 'getRoomStatus']);
+    Route::get('/getRoom', [RoomController::class, 'index'])->middleware('auth:api');
+    Route::post('/createRoom', [RoomController::class, 'store']);
+    Route::post('/nextGame', [RoomController::class, 'next_game'])->middleware('auth:api');
+    Route::get('/checkGame', [RoomController::class, 'check_game'])->middleware('auth:api');
+    Route:: get('/getRoomMembers', [RoomController::class, 'check_game_members']);
 
 });
 
@@ -48,9 +52,9 @@ Route::middleware('auth:api')->group(function () {
     });
 });
 
+
 Route::post('/login', 'AuthController@login');
 Route::post('/register', 'AuthController@register');
-
 
 
 

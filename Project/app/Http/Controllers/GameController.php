@@ -40,7 +40,8 @@ class GameController extends Controller {
         }
 
 
-        $game = Game::with('text')->whereIn('text_id', $texts)->where('started', '=', false)->first();
+        $game = Game::with('text')->whereIn('text_id', $texts)
+            ->where('started', '=', false)->where('room_id', '=', null)->first();
 
 
         if (!$game) {
@@ -51,12 +52,18 @@ class GameController extends Controller {
         return $game;
     }
 
+    public function indexById(Request $request) {
+        $id = $request->input('gameId');
+
+        return Game::with('text')->find($id);
+    }
+
 
     /**
      * Store a newly created resource in storage.
      *
      */
-    public function store(Request $request, $texts) {
+    public function store(Request $request, $texts, $room_id = null) {
 
         $newGame = new Game();
 
@@ -67,6 +74,12 @@ class GameController extends Controller {
         $newGame->started = false;
 
         $newGame->game_time = time();
+
+        file_put_contents('C:\Users\57thr\Documents\GitHub\PRITR\Project\app\Http\Controllers\log.txt', $room_id, FILE_APPEND);
+
+        if ($room_id != null) {
+            $newGame->room_id = $room_id;
+        }
 
 
         $newGame->save();
@@ -150,10 +163,6 @@ class GameController extends Controller {
         $completion = round($request->completion);
 
 
-        file_put_contents('C:\Users\57thr\Documents\GitHub\PRITR\Project\app\Http\Controllers\log.txt',
-            sprintf('UPDATE classic_results SET cpm = %d , completion = %s WHERE game_id = %f AND user_id = %g',
-                $cpm, $completion, $game_id, $user_id), FILE_APPEND);
-
         DB::update(sprintf('UPDATE classic_results SET cpm = %d , completion = %s WHERE game_id = %f AND user_id = %g',
             $cpm, $completion, $game_id, $user_id));
 
@@ -165,6 +174,8 @@ class GameController extends Controller {
 
         $game_id = $request->gameId;
 
+        $user = User::find($user_id);
+
         $cpm = round($request->cpm);
 
         $race_time = round($request->raceTime);
@@ -175,8 +186,6 @@ class GameController extends Controller {
             $user->classic_won = round($user->classic_won + 1);
         }
 
-        $user = User::find($user_id);
-
         $user->cpm_sum = round($user->cpm + $cpm);
 
         $user->classic_finished = round($user->classic_finished++);
@@ -186,6 +195,7 @@ class GameController extends Controller {
         $user->cpm_last_10 = round($this->get_cpm_last_10($user->last_10));
 
         $user->save();
+
 
         DB::update(sprintf('UPDATE classic_results SET race_time = %s, place = %k WHERE game_id = %f AND user_id = %g',
             $race_time, $place, $game_id, $user_id));
@@ -204,6 +214,7 @@ class GameController extends Controller {
             $res_string .= $cpm . ',';
             return $res_string;
         }
+
 
         $res_string .= $cpm . ',';
         return $res_string;
