@@ -46,7 +46,8 @@
             <p v-for="meme in roomMembers">{{ meme.user[0].username }}</p>
         </div>
 
-        <race-typing :game="currGame" v-if="currGame" bts_enabled="true"/>
+        <race-typing :game="currGame" v-if="currGame" v-on:changeSettings="this.currGame = null"
+                     v-on:newText="getGame" bts_enabled="true"/>
     </div>
 </template>
 
