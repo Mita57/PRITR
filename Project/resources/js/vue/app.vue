@@ -13,10 +13,10 @@
                 <div class="menu-item" :style="[($router.currentRoute.name === 'PracticeRace') ? {backgroundColor: '#960000'}: {}]" >
                     Тренировка</div>
             </router-link>
-            <router-link to="/gameRoom">
+            <router-link to="/gameRoom" v-if="loggedIn">
             <div class="menu-item" :style="[($router.currentRoute.name === 'gameRoom') ? {backgroundColor: '#960000'}: {}]">Играть с друзьями</div>
             </router-link>
-            <router-link to="/texts"><div class="menu-item" :style="[($router.currentRoute.name === 'Texts') ? {backgroundColor: '#960000'}: {}]">Предложить текст</div>
+            <router-link v-if="loggedIn" to="/texts"><div class="menu-item" :style="[($router.currentRoute.name === 'Texts') ? {backgroundColor: '#960000'}: {}]">Предложить текст</div>
             </router-link>
             <div class="menu-item" id="acc" v-if="loggedIn" @mouseover="showStats = true" @mouseleave="showStats = false">
                 <img class="user_pic"

@@ -32,7 +32,7 @@
             <input type="text" id="topic" name="topic" placeholder="Темы" v-model="topic"
                    :disabled="this.anyTopicChecked">
 
-            <input type="checkbox" id="any_topic_cb" name="any_topic" value="any" v-model="anyTopicChecked">b
+            <input type="checkbox" id="any_topic_cb" name="any_topic" value="any" v-model="anyTopicChecked">
             <label for="any_topic_cb">Любая</label>
         </div>
         <button @click="findGame" id="findGame" :disabled="verifyInputs()">Найти игру</button>
