@@ -8,7 +8,7 @@
             </div>
         </div>
 
-        <race-typing :game="currGame" v-if="currGame" bts_enabled="false"/>
+        <race-typing :game="currGame" v-else :bts_enabled="false"/>
     </div>
 </template>
 

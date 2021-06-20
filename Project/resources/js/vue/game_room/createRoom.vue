@@ -41,13 +41,13 @@
 
         </div>
 
-        <div id="members">
+        <div id="members" v-if="!currGame">
             <h3>В комнате:</h3>
             <p v-for="meme in roomMembers">{{ meme.user[0].username }}</p>
         </div>
 
-        <race-typing :game="currGame" v-if="currGame" v-on:changeSettings="this.currGame = null"
-                     v-on:newText="getGame" bts_enabled="true"/>
+        <race-typing :game="currGame" v-else v-on:changeSettings="this.currGame = null"
+                     v-on:newText="getGame" :bts_enabled="true"/>
     </div>
 </template>
 
@@ -75,6 +75,7 @@ export default {
 
     mounted() {
         this.roomMembersChecker = setInterval(this.getRoomMembers, 2000);
+        this.getRoomMembers();
     },
 
     beforeDestroy() {

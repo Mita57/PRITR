@@ -131,7 +131,12 @@ export default {
         },
 
         getCps() {
-            const secsPassed = (Date.now() - this.raceBegin) / 1000;
+            let secsPassed;
+            if (!this.gameEnded) {
+                secsPassed = (Date.now() - this.raceBegin) / 1000;
+            } else {
+                secsPassed = this.secsEllapsed;
+            }
             return this.charsEntered / secsPassed;
         },
 

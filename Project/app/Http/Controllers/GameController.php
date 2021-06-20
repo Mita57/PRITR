@@ -172,7 +172,7 @@ class GameController extends Controller {
     public function game_final(Request $request) {
         $user_id = auth()->user()->id;
 
-        $game_id = $request->gameId;
+        $game_id = round($request->gameId);
 
         $user = User::find($user_id);
 
@@ -197,7 +197,7 @@ class GameController extends Controller {
         $user->save();
 
 
-        DB::update(sprintf('UPDATE classic_results SET race_time = %s, place = %k WHERE game_id = %f AND user_id = %g',
+        DB::update(sprintf('UPDATE classic_results SET race_time = %s, place = %k, completion = 100 WHERE game_id = %f AND user_id = %g',
             $race_time, $place, $game_id, $user_id));
 
         return $user;
